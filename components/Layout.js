@@ -234,7 +234,7 @@ const Layout = ({ children, loader, toaster, constant }) => {
               }
             </div>
           </header>
-          <header className="!z-50  w-full overflow-visible">
+          <header className="relative !z-50  w-full overflow-visible">
             {
               !router.pathname.includes('/booking/service-detail') && !router.route.includes('error') &&
               <Navbar

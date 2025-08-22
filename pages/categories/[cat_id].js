@@ -149,7 +149,7 @@ function Categories(props) {
     };
 
     return (
-        <div className="bg-white w-full ">
+        <div className="bg-white w-full">
             <section className="bg-white w-full flex flex-col justify-center items-center">
                 <div className="md:px-10 mx-auto w-full z-30 px-5 md:pt-10 pt-5 md:pb-10 pb-5">
                     <div className='grid md:grid-cols-4 grid-cols-1 w-full md:gap-5'>
@@ -212,13 +212,15 @@ function Categories(props) {
                         </div>
 
                         <div className='col-span-3 !z-40'>
-                            <div className=' md:mt-0 mt-5 !z-20'>
+                            <div className=' md:mt-0 mt-5'>
+                                {/* !z-20 */}
                                 {/* <InfiniteScroll
                                     dataLength={productList.length}
                                     next={() => { getproductByCategory(router?.query?.cat_id, page) }}
                                     hasMore={hasMore}
                                 > */}
-                                <div className="grid md:grid-cols-3 grid-cols-1 gap-5 !z-20">
+                                <div className="grid md:grid-cols-3 grid-cols-1 gap-5">
+                                    {/* !z-20 */}
                                     {productList.map((item, i) => (
                                         <div key={i} className='w-full !z-30'>
                                             <ProductCard {...props} item={item} i={i} url={`/product-detail/${item?.slug}?from=categories`} />

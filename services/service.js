@@ -1,6 +1,6 @@
 import axios from "axios";
 // const ConstantsUrl = "http://localhost:3000/v1/api/";
-export const ConstantsUrl = "https://api.krytonline.com/v1/api/";
+export const ConstantsUrl = "https://apis.krytonline.com/v1/api/";
 // export const ConstantsUrl = "http://localhost:3000/v1/api/";
 
 // "https://sp-app-api.herokuapp.com"
