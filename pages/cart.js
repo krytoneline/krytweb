@@ -519,6 +519,11 @@ function Cart(props) {
                                         email_address: user?.email,
                                     },
 
+                                    application_context: {
+                                        shipping_preference: "NO_SHIPPING", // 🚫 No shipping address
+                                        user_action: "PAY_NOW", // Button shows "Pay Now" instead of "Continue"
+                                    },
+
                                 });
                             }}
                             onApprove={(data, actions) => {
