@@ -59,7 +59,9 @@ function Footer(props) {
                   onClick={() => { router.push('/') }}
                 />
               </div>
+              <p className="text-white text-sm	font-bold pb-2 md:text-start text-center">SYNCOPE TECHNOLOGY LTD</p>
               <p className="text-white text-sm	font-normal pb-2 md:text-start text-center">{t("Address")} -1 : Royal Road, La Paix Piton, Mauritius</p>
+              <p className="text-white text-sm	font-bold pb-2 md:text-start text-center mt-5">2 Digit Innovations Pvt Ltd</p>
               <p className="text-white text-sm	font-normal pb-2 md:text-start text-center">{t("Address")} -2 : Hyde Park Crown First Floor, FF-14-21 Plot No GH-03 Sector-78, Noida, Uttar Pradesh 201306</p>
               <p className="text-white text-sm	font-normal pb-5 md:text-start text-center">{t("Mobile")} : <a href="tel:+23057322255">+23057322255</a></p>
 
