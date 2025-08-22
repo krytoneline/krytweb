@@ -1,0 +1,150 @@
+import React, { useState } from 'react'
+import { useRouter } from "next/router";
+import { Api } from '@/services/service';
+import { IoEyeOffOutline } from "react-icons/io5";
+import { IoEyeOutline } from "react-icons/io5";
+import { useTranslation } from "react-i18next";
+
+function signUp(props) {
+    const router = useRouter();
+    const [userDetail, setUserDetail] = useState({
+        name: "",
+        email: "",
+        type: "",
+        phoneNumber: "",
+        password: "",
+
+    });
+    const [eyeIcon, setEyeIcon] = useState(false);
+    const { t } = useTranslation();
+
+
+    const submit = (e) => {
+        e.preventDefault();
+
+        props.loader(true);
+        const data = {
+            email: userDetail.email.toLowerCase(),
+            username: userDetail.name,
+            password: userDetail.password,
+            number: userDetail.phoneNumber,
+            type: userDetail.type,
+        };
+        Api("post", "signUp", data, router).then(
+            (res) => {
+                console.log("res================>", res);
+                props.loader(false);
+
+                if (res?.success) {
+                    router.push("/auth/signIn");
+                    setUserDetail({
+                        name: "",
+                        email: "",
+                        company: "",
+                        phoneNumber: "",
+                        password: "",
+                    });
+                    props.toaster({ type: "success", message: 'Register successfully' });
+                } else {
+                    console.log(res?.data?.message);
+                    props.toaster({ type: "error", message: res?.data?.message });
+                }
+            },
+            (err) => {
+                props.loader(false);
+                console.log(err);
+                props.toaster({ type: "error", message: err?.message });
+            }
+        );
+    };
+
+    return (
+        <div className="bg-white w-full">
+            <section className="bg-white w-full relative flex flex-col justify-center items-center">
+                <div className="max-w-7xl mx-auto w-full md:px-0 px-5 md:pt-10 pt-5 md:pb-10 pb-5">
+                    <div className="bg-custom-lightGrayColors w-full rounded-[20px] border border-custom-darkGrayColor md:p-10 p-5">
+                        <form className="grid md:grid-cols-3 grid-cols-1 w-full md:gap-0 gap-5" onSubmit={submit}>
+                            <div className="flex flex-col justify-center">
+                                <p className="md:text-3xl text-2xl text-black font-bold pb-5 text-center">{t("Sign up")}</p>
+
+                                <select className="bg-white w-full md:h-[50px] h-[40px] px-5 rounded-[5px] border-2 border-custom-newLightGray font-normal md:text-lg text-base text-custom-newLightGrayColor outline-none mb-5" type="text" placeholder="Company"
+                                    required
+                                    value={userDetail.type}
+                                    onChange={(text) => {
+                                        setUserDetail({
+                                            ...userDetail,
+                                            type: text.target.value,
+                                        });
+                                    }}
+                                >
+                                    <option value="">{t("Select User Type")}</option>
+                                    <option value="USER">{t("User")}</option>
+                                    <option value="SELLER">{t("Seller")}</option>
+                                </select>
+
+                                <input className="bg-white w-full md:h-[50px] h-[40px] px-5 rounded-[5px] border-2 border-custom-newLightGray font-normal md:text-lg text-base text-black outline-none mb-5" type="text" placeholder={t("Name")}
+                                    required
+                                    value={userDetail.name}
+                                    onChange={(text) => {
+                                        setUserDetail({
+                                            ...userDetail,
+                                            name: text.target.value,
+                                        });
+                                    }} />
+
+
+                                <input className="bg-white w-full md:h-[50px] h-[40px] px-5 rounded-[5px] border-2 border-custom-newLightGray font-normal md:text-lg text-base text-black outline-none mb-5" type="email" placeholder={t("Email")}
+                                    required
+                                    value={userDetail.email}
+                                    onChange={(text) => {
+                                        setUserDetail({
+                                            ...userDetail,
+                                            email: text.target.value,
+                                        });
+                                    }} />
+
+                                <input className="bg-white w-full md:h-[50px] h-[40px] px-5 rounded-[5px] border-2 border-custom-newLightGray font-normal md:text-lg text-base text-black outline-none mb-5" type="number" placeholder={t("Phone Number")}
+                                    required
+                                    value={userDetail.phoneNumber}
+                                    onChange={(text) => {
+                                        setUserDetail({
+                                            ...userDetail,
+                                            phoneNumber: text.target.value,
+                                        });
+                                    }}
+                                />
+                                <div className='relative'>
+                                    <input className="bg-white w-full md:h-[50px] h-[40px] px-5 rounded-[5px] border-2 border-custom-newLightGray font-normal md:text-lg text-base text-black outline-none mb-10" placeholder="*********"
+                                        required
+                                        type={!eyeIcon ? "password" : "text"}
+                                        value={userDetail.password}
+                                        onChange={(text) => {
+                                            setUserDetail({
+                                                ...userDetail,
+                                                password: text.target.value,
+                                            });
+                                        }} />
+                                    <div className='absolute md:top-[14px] top-[10px] right-[12px]'>
+                                        {!eyeIcon && <IoEyeOffOutline className='w-[20px] h-[20px] text-custom-newLightGray' onClick={() => { setEyeIcon(true); }} />}
+                                        {eyeIcon && <IoEyeOutline className='w-[20px] h-[20px] text-custom-newLightGray' onClick={() => { setEyeIcon(false); }} />}
+                                    </div>
+                                </div>
+                                <button className="bg-custom-red md:h-[50px] h-[40px] w-full rounded-[10px] AnonymousPro font-bold md:text-xl text-base text-white md:mb-10 mb-5" type="submit">{t("Sign up")}</button>
+                                <p className="md:text-lg text-base text-black font-normal AnonymousPro">
+                                    {t("Already have an account")}? <span className="font-bold text-black cursor-pointer" onClick={() => {
+                                        router.push("/auth/signIn");
+                                    }}>{t("Sign in")}</span>
+                                </p>
+                            </div>
+                            <div className='md:flex justify-center items-center col-span-2 hidden'>
+                                <img className='h-[550px] object-contain' src='/image-17.png' />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    )
+}
+
+export default signUp

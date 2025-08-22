@@ -1,0 +1,51 @@
+/** @type {import('tailwindcss').Config} */
+module.exports = {
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
+  theme: {
+    extend: {
+      colors: {
+        background: "var(--background)",
+        foreground: "var(--foreground)",
+      },
+      colors: {
+        'custom-gray': "#445268",
+        'custom-orange': "#DCDCDC",
+        'custom-red': "#000000",
+        'custom-darkRed': "#000000",
+        'custom-lightBlue': "#E6F2FE",
+        'custom-blue': "#007FFC",
+        'custom-offWhite': "#F2F3F7",
+        'custom-darkGray': "#B2B2B2",
+        'custom-lightGray': "#F2F2F2",
+        'custom-black': "#374151",
+        'custom-lightGrayColor': "#9CA3AF",
+        'custom-darkGrayColor': "#929292",
+        'custom-lightGrayColors': "#F9FAFB",
+        'custom-newLightGray': "#D0D0D0",
+        'custom-newLightGrayColor': "#8A8A8A",
+        'custom-darkBlack': "#1F2937",
+        'custom-newDarkGray': "#4B5563",
+        'custom-offWhiteColor': "#F4F4F4",
+        'custom-newDarkBlack': "#282828",
+        'custom-newDarkGrayColor': "#A0A0A0",
+        'custom-newGray': "#9F9F9F",
+        'custom-newBlack': "#242424",
+        'custom-newGrayColor': "#898989",
+        'custom-newBlacks': "#222222",
+        'custom-newBlackColor': "#0C0A09",
+        'custom-newLightGrayColors': "#F8F8F8",
+        'custom-newOffWhite': "#DDDDDD",
+        'custom-blackColor': "#333333",
+        'custom-newBlue': "#5369D7",
+        'custom-grayColor': "#767676",
+        'custom-grayColorNew': "#C9C9C9",
+        'custom-newLightGrays': "#E6E6E6",
+      }
+    },
+  },
+  plugins: [],
+};
