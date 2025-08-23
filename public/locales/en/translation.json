@@ -137,5 +137,11 @@
     "Address : Royal Road, La Paix Piton, Mauritius": "Address : Royal Road, La Paix Piton, Mauritius",
     "Mobile": "Mobile",
     "Your cart is empty.": "Your cart is empty.",
-    "PayPal Payment": "PayPal Payment"
+    "PayPal Payment": "PayPal Payment",
+    "My Profile": "My Profile",
+    "Name is required": "Name is required",
+    "Email is required": "Email is required",
+    "Phone is required": "Phone is required",
+    "Update": "Update",
+    "Change Password": "Change Password"
 }
