@@ -1,9 +1,0 @@
-# *
-User-agent: *
-Allow: /
-
-# Host
-Host: https://www.krytonline.com/
-
-# Sitemaps
-Sitemap: https://www.krytonline.com/sitemap.xml
