@@ -1,4 +1,4 @@
-import { Api } from '@/services/service';
+import { Api, ApiGetPdf } from '@/services/service';
 import React, { useState, useEffect, useContext } from 'react'
 import { useRouter } from "next/router";
 import { RxCrossCircled } from 'react-icons/rx'
@@ -8,6 +8,7 @@ import StarIcon from '@mui/icons-material/Star';
 import { useTranslation } from "react-i18next";
 import constant from '@/services/constant';
 import { categoryContext } from './_app';
+import { MdFileDownload } from "react-icons/md";
 
 function orders(props) {
     const router = useRouter();
@@ -94,6 +95,15 @@ function orders(props) {
         );
     }
 
+    const GeneratePDF = (orderId) => {
+        const data = {
+            orderId: orderId,
+        };
+        ApiGetPdf("createinvoice", data, router)
+            .then(() => console.log("PDF downloaded/opened successfully"))
+            .catch((err) => console.error("Failed to fetch PDF", err));
+    };
+
     return (
         <div className="bg-white w-full">
             <section className="bg-white w-full flex flex-col justify-center items-center">
@@ -110,11 +120,16 @@ function orders(props) {
                                     </div>}
                                     {item?.category_type === 'Products' && <p className='text-custom-gray text-xs font-bold pt-[6px]'>{t("Quantity")}: {item?.productDetail?.qty || 1}</p>}
                                     {item?.rooms && <p className='text-custom-gray text-xs font-bold pt-[6px]'>{t("Rooms")}: {item?.rooms}</p>}
-                                    <p className='text-custom-gray text-xs font-bold pt-[6px]'>{t("Order ID")}: {item?._id}</p>
+                                    <p className='text-custom-gray text-xs font-bold pt-[6px]'>{t("Order ID")}: {item?.orderId || item?._id}</p>
                                 </div>
                             </div>
                             <div className='flex flex-col'>
-                                <p className='text-custom-red text-base font-bold text-right'>{constant?.currency}{item?.productDetail?.total}</p>
+                                <div className='flex justify-end items-center gap-2'>
+                                    <p className='text-custom-red text-base font-bold text-right'>{constant?.currency}{item?.productDetail?.total}</p>
+                                    <MdFileDownload className="text-xl text-black"
+                                        onClick={() => GeneratePDF(item._id)}
+                                    />
+                                </div>
                                 <div className='flex justify-end items-end mt-2'>
                                     <button className='bg-custom-newDarkBlack h-[30px] w-24 rounded-[5px] text-white font-semibold text-sm' onClick={() => { setShowReviews(true); setProductId(item?.productDetail?.product?._id); setSellerId(item?.productDetail?.seller_id) }}>{t("Reviews")}</button>
                                 </div>
