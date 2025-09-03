@@ -54,8 +54,8 @@ function ProductCard({ item, i, url, section, toaster }) {
 
     return (
         <div className="w-full bg-custom-lightGrayColors !-z-30" >
-            <div className='w-full h-72  bg-[#F4F4F4] overflow-hidden'>
-                <img className="object-contain object-center cursor-pointer" height={'100%'} width={'100%'} src={item?.varients[0]?.image[0]} onClick={() => { sponsoredProduct() }} />
+            <div className='w-full h-48 xl:h-72 bg-[#F4F4F4] overflow-hidden'>
+                <img className="object-contain object-center cursor-pointer h-full w-full" height={'100%'} width={'100%'} src={item?.varients[0]?.image[0]} onClick={() => { sponsoredProduct() }} />
             </div>
             <div className='md:p-5 p-3'>
                 <div className='w-full grid grid-cols-6'>

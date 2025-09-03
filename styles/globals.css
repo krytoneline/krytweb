@@ -175,3 +175,17 @@ body {
 .css-1nmdiq5-menu {
   color: black !important;
 }
+
+.scrollbar-view::-webkit-scrollbar{
+  width: 8px;
+  background-color: #0000000F;
+}
+
+.scrollbar-view::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+.scrollbar-view::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.5);
+}
