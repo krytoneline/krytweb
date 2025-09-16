@@ -222,11 +222,11 @@ export default function Home(props) {
           {/* <button className="border border-black rounded-[50px] md:h-[48px] h-[40px] md:w-[152px] w-full text-sm	font-medium	text-black md:mt-0 mt-5">Learn more</button> */}
         </div>}
 
-        <div className="bg-white w-full md:p-5 md:mt-5">
+        <div className="bg-white w-full md:p-5 md:mt-5 h-[600px] md:h-[700px]">
           <div className="grid md:grid-cols-4 grid-cols-1 w-full md:gap-5">
 
-            <div className="md:p-0 p-5 md:order-1 order-2 md:block hidden">
-              <p className="text-black text-lg	font-medium border-b border-custom-darkGray pb-5">{t("Categories")}</p>
+            <div className="md:p-0 p-5 md:order-1 order-2 md:block hidden overflow-auto h-[570px] xl:h-[670px] scrollbar-view">
+              <p className="text-black text-lg font-bold border-b border-custom-darkGray pb-5">{t("Categories")}</p>
               <div className="flex justify-between items-center pt-5 cursor-pointer" onClick={() => { router.push(`/categories/all`) }}>
                 <div className="flex justify-start items-center">
                   <div className="bg-custom-lightGray w-[34px] h-[34px] rounded-full flex justify-center items-center">
@@ -249,7 +249,7 @@ export default function Home(props) {
               </div>))}
             </div>
 
-            <div className="md:col-span-2 h-full md:mt-5 md:order-2 order-1 md:py-0 py-5 ">
+            <div className="md:col-span-2 md:mt-5 md:order-2 order-1 md:py-0 py-5 h-[360px] md:h-[470px] xl:h-[600px]">
               <Carousel className="h-full"
                 responsive={responsive}
                 autoPlay={true}
@@ -265,7 +265,7 @@ export default function Home(props) {
             </div>
 
             {user?.token === undefined && <div className="md:px-0 px-5 md:my-0 my-5 order-3">
-              <p className="text-black text-sm font-normal">{t("Sign up to enjoy  exciting Buyers Club benefits")}</p>
+              <p className="text-black text-base font-bold">{t("Sign up to enjoy  exciting Buyers Club benefits")}</p>
               <button className="text-white text-sm font-bold bg-custom-darkRed rounded-[20px] md:h-[42px] h-[40px] w-full md:mt-10 mt-5" onClick={() => { router.push('/auth/signUp') }}>{t("Join Free")}</button>
               <button className="text-black text-sm font-bold border border-black rounded-[20px] md:h-[42px] h-[40px] w-full mt-5" onClick={() => { router.push('/auth/signIn') }}>{t("Sign in")}</button>
             </div>}
@@ -288,10 +288,10 @@ export default function Home(props) {
       </section>
 
       <section className="md:px-10 px-5 mx-auto w-full py-5">
-        <div className="w-full  rounded-[10px] md:bg-[url('/image-21.png')] bg-custom-darkRed bg-right bg-no-repeat  bg-cover">
+        <div className="w-full  rounded-[10px] md:bg-[url('/image-21.png')] bg-custom-darkRed bg-right bg-no-repeat  bg-fill">
           <div className="grid md:grid-cols-4 grid-cols-1 w-full h-full gap-5 md:p-5 p-5">
             <div className="md:pl-5">
-              <p className="text-white md:text-[25px] text-2xl font-bold md:w-[150px] leading-[30px]">{t("Categories we have")}</p>
+              <p className="text-white md:text-[25px] text-2xl font-bold leading-[30px]">{t("Categories we have")}</p>
               <p className="text-white text-base font-medium pt-2">{t("How to enjoy reduced-price products, fixed Delivery times, and flexible payments this month")}</p>
               {/* <button className="text-black font-medium text-sm bg-white md:h-[42px] h-[40px] w-[150px] rounded-[20px] mt-5" onClick={() => router.push('/categories')}>Learn more</button> */}
             </div>
