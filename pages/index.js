@@ -307,12 +307,12 @@ export default function Home(props) {
         </div>
       </section>
 
-      <section className="md:px-10 mx-auto w-full py-5  px-5 md:block hidden">
+      <section className="bg-white md:px-10 mx-auto w-full py-5  px-5 md:block hidden">
         <div className="flex flex-col justify-center items-center pb-5">
           <div className="max-w-max">
             <p className="text-custom-black font-semibold md:text-[26px] text-2xl text-center uppercase w-full">{t("Popular this week")}</p>
             {/* <img src="/image-10.png" /> */}
-            <p className="bg-custom-black w-[99px] h-[5px] rounded-full"></p>
+            <p className="bg-custom-black w-full h-[5px] rounded-full"></p>
           </div>
         </div>
         <div className="grid md:grid-cols-4 grid-cols-1 w-full gap-5">
@@ -332,7 +332,7 @@ export default function Home(props) {
           <div className="max-w-max">
             <p className="text-custom-black font-semibold md:text-[26px] text-2xl text-center uppercase w-full">{t("Popular this week")}</p>
             {/* <img src="/image-10.png" /> */}
-            <p className="bg-custom-black w-[99px] h-[5px] rounded-full"></p>
+            <p className="bg-custom-black w-full h-[5px] rounded-full"></p>
           </div>
         </div>
         <div className="grid md:grid-cols-4 grid-cols-1 w-full gap-5">
@@ -359,7 +359,7 @@ export default function Home(props) {
             <div className="max-w-max">
               <p className="text-custom-black font-semibold md:text-[26px] text-2xl uppercase text-center w-full">{t("Sponsored product")}</p>
               {/* <img src="/image-10.png" /> */}
-              <p className="bg-custom-black w-[99px] h-[5px] rounded-full"></p>
+              <p className="bg-custom-black w-full h-[5px] rounded-full"></p>
             </div>
           </div>
 
@@ -382,7 +382,7 @@ export default function Home(props) {
             <div className="max-w-max">
               <p className="text-custom-black font-semibold md:text-[26px] text-2xl uppercase text-center w-full">{t("Sponsored product")}</p>
               {/* <img src="/image-10.png" /> */}
-              <p className="bg-custom-black w-[99px] h-[5px] rounded-full"></p>
+              <p className="bg-custom-black w-full h-[5px] rounded-full"></p>
             </div>
           </div>
 

@@ -16,7 +16,7 @@ function Profile(props) {
   const [userDetail, setUserDetail] = useState({
     name: "",
     email: "",
-    number: ""
+    number: "",
   });
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -50,8 +50,8 @@ function Profile(props) {
         props.loader(false);
 
         if (res?.status) {
-          setPassword('')
-          setConfirmPassword('')
+          setPassword("");
+          setConfirmPassword("");
           props.toaster({ type: "success", message: res?.data?.message });
         } else {
           console.log(res?.data?.message);
@@ -86,7 +86,7 @@ function Profile(props) {
             email: res?.data?.email,
             userimg: res?.data?.profile || "/Rectangle-62.png",
             profile: res?.data?.profile,
-            number: res?.data?.number
+            number: res?.data?.number,
           });
         } else {
           console.log(res?.data?.message);
@@ -149,119 +149,121 @@ function Profile(props) {
 
   return (
     <>
-      <div className="bg-white w-full h-full md:my-10 my-1 px-2 md:px-0  flex flex-col justify-center items-center ">
-        <div className="w-full mx-auto max-w-2xl flex flex-col  justify-center items-center self-center  rounded-xl  shadow  p-5">
-          <div className="flex justify-center items-center md:pt-5 pt-5 pb-5">
-            <h1 className="text-black text-3xl	font-nunito font-bold	">
-              {t("My Profile")}
-            </h1>
-          </div>
-
-          <div className="md:px-20 px-5 py-5 self-center rounded-xl w-full">
-            <div className="mr-2 relative w-full  sm:pb-0 pb-1 flex rounded-2xl  justify-start items-center border outline-custom-orange ">
-              <IoIosContact className=" text-custom-gray h-5 w-5 ml-2" />
-              <input
-                className=" w-full pl-2  text-black  sm:text-lg text-sm rounded-2xl sm:py-4 py-2 outline-none"
-                placeholder={t("Name")}
-                value={userDetail.name}
-                onChange={(text) => {
-                  setUserDetail({ ...userDetail, name: text.target.value });
-                }}
-              />
+      <div className="min-h-[500px] bg-white px-2 py-8 flex justify-center">
+        <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+          <div className="bg-white border border-black/10 rounded-2xl shadow-lg">
+            <div className="border-b border-black/10 py-6 text-center">
+              <h1 className="text-3xl font-bold text-black">
+                {t("My Profile")}
+              </h1>
             </div>
-            {submitted && userDetail.name === "" && (
-              <p className="text-red-700 mt-1">{t("Name is required")}</p>
-            )}
 
-            <div className="mr-2 relative w-full  sm:pb-0 pb-1 flex rounded-2xl  justify-start items-center border outline-custom-orange mt-4">
-              <AiOutlineMail className=" text-custom-gray h-5 w-5 ml-2" />
-              <input
-                className=" w-full pl-2  text-black  sm:text-lg text-sm rounded-2xl sm:py-4 py-2 outline-none"
-                placeholder={t("Email")}
-                value={userDetail.email}
-                onChange={(text) => {
-                  setUserDetail({ ...userDetail, email: text.target.value });
-                }}
-              />
-            </div>
-            {submitted && userDetail.email === "" && (
-              <p className="text-red-700 mt-1">{t("Email is required")}</p>
-            )}
+            <div className="p-6 md:p-8 space-y-5">
+              <div>
+                <div className="flex items-center gap-3 border border-black/20 rounded-xl px-4 py-3 focus-within:border-black transition">
+                  <IoIosContact className="text-black/60 w-5 h-5" />
+                  <input
+                    className="w-full bg-transparent outline-none text-black placeholder-black/50"
+                    placeholder={t("Name")}
+                    value={userDetail.name}
+                    onChange={(e) =>
+                      setUserDetail({ ...userDetail, name: e.target.value })
+                    }
+                  />
+                </div>
+                {submitted && !userDetail.name && (
+                  <p className="text-sm text-black/70 mt-1">
+                    {t("Name is required")}
+                  </p>
+                )}
+              </div>
 
-            <div className="mr-2 relative w-full  sm:pb-0 pb-1 flex rounded-2xl  justify-start items-center border outline-custom-orange mt-4">
-              <MdOutlinePhoneAndroid className=" text-custom-gray h-5 w-5 ml-2" />
-              <input
-                className=" w-full pl-2  text-black  sm:text-lg text-sm rounded-2xl sm:py-4 py-2 outline-none"
-                placeholder={t("Phone number")}
-                value={userDetail.number}
-                onChange={(text) => {
-                  setUserDetail({ ...userDetail, number: text.target.value });
-                }}
-              />
-            </div>
-            {submitted && userDetail.number === "" && (
-              <p className="text-red-700 mt-1">{t("Phone is required")}</p>
-            )}
+              <div>
+                <div className="flex items-center gap-3 border border-black/20 rounded-xl px-4 py-3 focus-within:border-black transition">
+                  <AiOutlineMail className="text-black/60 w-5 h-5" />
+                  <input
+                    className="w-full bg-transparent outline-none text-black placeholder-black/50"
+                    placeholder={t("Email")}
+                    value={userDetail.email}
+                    onChange={(e) =>
+                      setUserDetail({ ...userDetail, email: e.target.value })
+                    }
+                  />
+                </div>
+                {submitted && !userDetail.email && (
+                  <p className="text-sm text-black/70 mt-1">
+                    {t("Email is required")}
+                  </p>
+                )}
+              </div>
 
-            <div className="flex justify-center items-center mt-5">
+              <div>
+                <div className="flex items-center gap-3 border border-black/20 rounded-xl px-4 py-3 focus-within:border-black transition">
+                  <MdOutlinePhoneAndroid className="text-black/60 w-5 h-5" />
+                  <input
+                    className="w-full bg-transparent outline-none text-black placeholder-black/50"
+                    placeholder={t("Phone number")}
+                    value={userDetail.number}
+                    onChange={(e) =>
+                      setUserDetail({ ...userDetail, number: e.target.value })
+                    }
+                  />
+                </div>
+                {submitted && !userDetail.number && (
+                  <p className="text-sm text-black/70 mt-1">
+                    {t("Phone is required")}
+                  </p>
+                )}
+              </div>
+
               <button
                 onClick={submit}
-                type="button"
-                className="text-white bg-black   font-nunito   text-center md:h-14 h-10 w-full rounded-2xl"
+                className="w-full bg-black text-white py-3 rounded-xl text-lg font-medium hover:bg-black/90 transition"
               >
                 {t("Update")}
               </button>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div className="w-full   flex items-center md:my-10 my-5 justify-center px-2 md:px-0">
-        <div className="h-full w-full flex flex-col justify-center items-end">
-          <div className="w-full mx-auto max-w-2xl h-full">
-            <div className="flex w-full items-center justify-center h-full">
-              <div className="flex w-full  px-3 flex-col justify-center items-center md:px-7 shadow-xl  border rounded-xl  ">
-                <p className="text-black text-3xl font-bold my-5">
-                  {" "}
-                  {t("Change Password")}
-                </p>
-                <div className="mb-3 block flex-col md:flex w-full justify-start ">
-                  <div className="mr-2 relative w-full  sm:pb-0 pb-1 flex rounded-2xl  justify-start items-center border outline-custom-orange ">
-                    <AiFillLock className=" text-custom-gray h-5 w-5 ml-2" />
-                    <input
-                      placeholder={t("New Password")}
-                      type="password"
-                      className=" w-full pl-2  text-black  sm:text-lg text-sm rounded-2xl sm:py-4 py-2 outline-none"
-                      value={password}
-                      onChange={(text) => {
-                        setPassword(text.target.value);
-                      }}
-                    />
-                  </div>
+          <div className="bg-white border border-black/10 rounded-2xl shadow-lg">
+            <div className="border-b border-black/10 py-6 text-center">
+              <h2 className="text-3xl font-bold text-black">
+                {t("Change Password")}
+              </h2>
+            </div>
 
-                  <div className="mr-2 relative w-full  sm:pb-0 pb-1 flex rounded-2xl  justify-start items-center border outline-custom-orange mt-4">
-                    <AiFillLock className=" text-custom-gray h-5 w-5 ml-2" />
-                    <input
-                      placeholder={t("Confirm Password")}
-                      type="password"
-                      className=" w-full pl-2  text-black  sm:text-lg text-sm rounded-2xl sm:py-4 py-2 outline-none"
-                      value={confirmPassword}
-                      onChange={(text) => {
-                        setConfirmPassword(text.target.value);
-                      }}
-                    />
-                  </div>
-                </div>
-                <div className="flex flex-col justify-center w-full items-center sm:my-5 my-2">
-                  <button
-                    onClick={Submit}
-                    type="button"
-                    className="text-white bg-black  sm:py-5 py-2 w-full rounded-2xl text-xl"
-                  >
-                    {t("Submit")}
-                  </button>
-                </div>
+            <div className="p-6 md:p-8 space-y-5">
+             
+              <div className="flex items-center gap-3 border border-black/20 rounded-xl px-4 py-3 focus-within:border-black transition">
+                <AiFillLock className="text-black/60 w-5 h-5" />
+                <input
+                  type="password"
+                  placeholder={t("New Password")}
+                  className="w-full bg-transparent outline-none text-black placeholder-black/50"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
               </div>
+
+              {/* Confirm Password */}
+              <div className="flex items-center gap-3 border border-black/20 rounded-xl px-4 py-3 focus-within:border-black transition">
+                <AiFillLock className="text-black/60 w-5 h-5" />
+                <input
+                  type="password"
+                  placeholder={t("Confirm Password")}
+                  className="w-full bg-transparent outline-none text-black placeholder-black/50"
+                  value={confirmPassword}
+                  onChange={(e) => setConfirmPassword(e.target.value)}
+                />
+              </div>
+
+              <button
+                onClick={Submit}
+                className="w-full bg-black text-white py-3 rounded-xl text-lg font-medium hover:bg-black/90 transition"
+              >
+                {t("Submit")}
+              </button>
             </div>
           </div>
         </div>
@@ -270,4 +272,4 @@ function Profile(props) {
   );
 }
 
-export default Profile
+export default Profile;
