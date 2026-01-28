@@ -47,8 +47,8 @@ function Footer(props) {
 
   return (
     <div>
-      <div className="bg-black relative py-10">
-        <div className="max-w-7xl  mx-auto h-full">
+      <div className="bg-black relative py-5">
+        <div className="max-w-7xl mx-auto h-full">
           <div className="grid md:grid-cols-5 grid-cols-1">
             <div className="text-white px-5 md:px-0 flex flex-col md:justify-start justify-center md:items-start items-center">
               <div className="py-5">
@@ -78,16 +78,16 @@ function Footer(props) {
               <div className="flex flex-col md:items-start items-center">
                 <p className="text-white text-base font-bold py-5 uppercase">{t("Quick Link")}</p>
                 {/* <p className="text-white text-base font-normal cursor-pointer pb-5" onClick={() => { router.push('/product-details') }}>Products</p> */}
-                <p className="text-white text-base font-normal cursor-pointer pb-5" onClick={() => { router.push('/categories/all') }}>{t("Categories")}</p>
-                <p className="text-white text-base font-normal cursor-pointer pb-5" onClick={() => { router.push('/get-in-touch') }}>{t("Get In Touch")}</p>
+                <p className="text-white text-base font-normal cursor-pointer pb-3" onClick={() => { router.push('/categories/all') }}>{t("Categories")}</p>
+                <p className="text-white text-base font-normal cursor-pointer pb-3" onClick={() => { router.push('/get-in-touch') }}>{t("Get In Touch")}</p>
                 <p className="text-white text-base font-normal cursor-pointer" onClick={() => { router.push('/about-us') }}>{t("About us")}</p>
               </div>
             </div>
 
             <div className="text-white px-5 md:px-0">
               <p className="text-white text-base font-bold py-5 w-full md:text-start text-center uppercase">{t("Resources")}</p>
-              <p className="text-white text-base font-normal cursor-pointer pb-5 md:text-start text-center" onClick={() => { router.push('/faq') }}>{t("FAQ")}</p>
-              <p className="text-white text-base font-normal cursor-pointer pb-5 md:text-start text-center" onClick={() => { router.push('/terms-condition') }}>{t("Terms and Conditions")}</p>
+              <p className="text-white text-base font-normal cursor-pointer pb-3 md:text-start text-center" onClick={() => { router.push('/faq') }}>{t("FAQ")}</p>
+              <p className="text-white text-base font-normal cursor-pointer pb-3 md:text-start text-center" onClick={() => { router.push('/terms-condition') }}>{t("Terms and Conditions")}</p>
               <p className="text-white text-base font-normal cursor-pointer md:text-start text-center" onClick={() => { router.push('/privacy-policy') }}>{t("Privacy Policy")}</p>
             </div>
           </div>

@@ -7,4 +7,5 @@ export const ni18nConfig = {
   react: {
     useSuspense: false,
   },
+ 
 };

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { FaLocationDot } from "react-icons/fa6";
 import { FaPhoneAlt } from "react-icons/fa";
+import { FaEnvelope } from "react-icons/fa";
 import { Api } from "@/services/service";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
@@ -51,146 +52,143 @@ function GetInTouch(props) {
         props.loader(false);
         console.log(err);
         props.toaster({ type: "error", message: err?.message });
-      }
+      },
     );
   };
 
   return (
-    <div className="bg-white w-full">
-      <section className="bg-white w-full flex flex-col justify-center items-center max-w-4xl mx-auto">
-        <div className="md:px-10 mx-auto w-full  px-5 md:pt-10 pt-5 md:pb-10 pb-5">
-          <div className="flex flex-col justify-center items-center">
-            <p className="text-black font-semibold md:text-4xl text-2xl text-center">
-              {t("Get In Touch With Us")}
-            </p>
-            <p className="text-custom-newGray font-normal text-base md:pt-5 pt-2 md:w-[560px] text-center">
-              {t(
-                "For more information about our product & services. please feel free to drop us an email. our staff always be there to help you out. do not hesitate!"
-              )}
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 grid-cols-1 w-full md:pt-10 pt-5">
-            <div className="flex flex-col justify-start md:items-center items-start">
-              <div className="w-full justify-center">
-                <div className="flex justify-start items-center">
-                  <div className="bg-black md:w-[40px] w-[35px] md:h-[40px] h-[35px] rounded-full flex justify-center items-center">
-                    <FaLocationDot className="md:w-[22px] w-[15px] md:h-[22px] h-[15px] text-white" />
-                  </div>
-                  <p className="text-black md:text-2xl text-lg font-semibold ml-2">
-                    {t("Address")}
-                  </p>
+    <div className="min-h-[600px] bg-gray-50 p-4 md:py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Breadcrumb */}
+        <div className="md:mb-8 mb-3">
+          <p className="text-sm text-gray-600">
+            <span className="hover:text-gray-900 cursor-pointer" onClick={()=> router.push("/")}>Home</span>
+            <span className="mx-2">/</span>
+            <span className="text-gray-900 font-medium">Contact</span>
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-12 bg-white rounded-lg shadow-sm p-4 md:p-12">
+         
+          <div className="space-y-8 col-span-1">
+            
+            <div>
+              <div className="flex items-center mb-4">
+                <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
+                  <FaPhoneAlt className="w-5 h-5 text-white" />
                 </div>
-                <p className="text-black font-normal text-base pt-2 ml-12 md:ml-12">
-                  SYNCOPE TECHNOLOGY LTD
-                </p>
-                <p className="text-black font-normal text-base pt-2 ml-12 md:ml-12">
-                  Royal Road, La Paix Piton, Mauritius
-                </p>
+                <h3 className="ml-3 text-lg font-semibold text-gray-900">
+                  Call To Us
+                </h3>
               </div>
-              <div className="w-full justify-center mt-10">
-                <div className="flex justify-start items-center">
-                  <div className="bg-black md:w-[40px] w-[35px] md:h-[40px] h-[35px] rounded-full flex justify-center items-center">
-                    <FaPhoneAlt className="md:w-[22px] w-[15px] md:h-[22px] h-[15px] text-white" />
-                  </div>
-                  <p className="text-black md:text-2xl text-lg font-semibold ml-2">
-                    {t("Phone")}
-                  </p>
-                </div>
-                <p className="text-black font-normal text-base pt-2 ml-12 md:ml-12">
-                  {t("Mobile")} : <a href="tel:+23057322255">+23057322255</a>
-                </p>
-                {/* <p className='text-black font-normal text-base pt-2 ml-10'>{t("Hotline: +(84) 456-6789")}</p> */}
-              </div>
+              <p className="text-sm text-gray-600 mb-2 ">
+                SYNCOPE TECHNOLOGY LTD
+              </p>
+              <p className="text-sm text-gray-600 mb-2 ">
+                Royal Road, La Paix Piton, Mauritius
+              </p>
+              <p className="text-sm text-gray-600 mb-2">
+                We are available 24/7, 7 days a week.
+              </p>
+              <p className="text-sm text-gray-600 mb-2">
+                {" "}
+                Phone: <a href="tel:+23057322255">+23057322255</a>
+              </p>
             </div>
 
-            <form className="md:pt-0 pt-5 relative" onSubmit={submit}>
-              <div className="w-full">
-                <p className="text-black font-normal  text-base">
-                  {t("First Name")}
-                </p>
+            <hr className="border-gray-200" />
+
+            <div>
+              <div className="flex items-center mb-4">
+                <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
+                  <FaEnvelope className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="ml-3 text-lg font-semibold text-gray-900">
+                  Write To US
+                </h3>
+              </div>
+              <p className="text-sm text-gray-600 mb-2">
+                Fill out our form and we will contact you within 24 hours.
+              </p>
+              <p className="text-sm text-gray-900 mb-2">
+                Emails: customer@exclusive.com
+              </p>
+             
+            </div>
+          </div>
+
+          <div className="col-span-2">
+            <form onSubmit={submit} className="space-y-4">
+           
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <input
-                  className="bg-white md:w-[428px] w-full md:h-[50px] h-[40px] px-5 rounded-[10px] border border-custom-newGray font-normal  text-base text-black outline-none md:my-5 my-3"
                   type="text"
-                  placeholder={t("First Name")}
+                  placeholder="Your Name *"
                   required
                   value={getInTouchData.firstName}
-                  onChange={(text) => {
+                  onChange={(e) =>
                     setGetInTouchData({
                       ...getInTouchData,
-                      firstName: text.target.value,
-                    });
-                  }}
+                      firstName: e.target.value,
+                    })
+                  }
+                  className="px-4 py-3 bg-gray-100 rounded text-sm text-gray-900 placeholder-gray-500 outline-none focus:bg-gray-200 transition-colors"
                 />
-              </div>
-
-              <div className="w-full">
-                <p className="text-black font-normal  text-base">
-                  {t("Phone Number")}
-                </p>
                 <input
-                  className="bg-white md:w-[428px] w-full md:h-[50px] h-[40px] px-5 rounded-[10px] border border-custom-newGray font-normal  text-base text-black outline-none md:my-5 my-3"
-                  type="number"
-                  placeholder={t("Phone Number")}
-                  required
-                  value={getInTouchData.phoneNumber}
-                  onChange={(text) => {
-                    setGetInTouchData({
-                      ...getInTouchData,
-                      phoneNumber: text.target.value,
-                    });
-                  }}
-                />
-              </div>
-
-              <div className="w-full">
-                <p className="text-black font-normal  text-base">
-                  {t("Email Address")}
-                </p>
-                <input
-                  className="bg-white md:w-[428px] w-full md:h-[50px] h-[40px] px-5 rounded-[10px] border border-custom-newGray font-normal  text-base text-black outline-none md:my-5 my-3"
                   type="email"
-                  placeholder={t("Email Address")}
+                  placeholder="Your Email *"
                   required
                   value={getInTouchData.email}
-                  onChange={(text) => {
+                  onChange={(e) =>
                     setGetInTouchData({
                       ...getInTouchData,
-                      email: text.target.value,
-                    });
-                  }}
+                      email: e.target.value,
+                    })
+                  }
+                  className="px-4 py-3 bg-gray-100 rounded text-sm text-gray-900 placeholder-gray-500 outline-none focus:bg-gray-200 transition-colors"
+                />
+                <input
+                  type="tel"
+                  placeholder="Your Phone *"
+                  required
+                  value={getInTouchData.phoneNumber}
+                  onChange={(e) =>
+                    setGetInTouchData({
+                      ...getInTouchData,
+                      phoneNumber: e.target.value,
+                    })
+                  }
+                  className="px-4 py-3 bg-gray-100 rounded text-sm text-gray-900 placeholder-gray-500 outline-none focus:bg-gray-200 transition-colors"
                 />
               </div>
 
-              <div className="w-full">
-                <p className="text-black font-normal  text-base">
-                  {t("Message")}
-                </p>
-                <textarea
-                  className="bg-white md:w-[428px] w-full px-5 py-2 rounded-[10px] border border-custom-newGray font-normal  text-base text-black outline-none md:my-5 my-3"
-                  rows={4}
-                  placeholder={t("Hi! i’d like to ask about")}
-                  value={getInTouchData.description}
-                  onChange={(e) => {
-                    setGetInTouchData({
-                      ...getInTouchData,
-                      description: e.target.value,
-                    });
-                  }}
-                  required
-                />
-              </div>
-              <div className="flex md:justify-start justify-center">
+              {/* Message Textarea */}
+              <textarea
+                placeholder="Your Message"
+                rows={8}
+                value={getInTouchData.description}
+                onChange={(e) =>
+                  setGetInTouchData({
+                    ...getInTouchData,
+                    description: e.target.value,
+                  })
+                }
+                className="w-full px-4 py-3 bg-gray-100 rounded text-sm text-gray-900 placeholder-gray-500 outline-none focus:bg-gray-200 transition-colors resize-none"
+              />
+
+              {/* Submit Button */}
+              <div className="flex justify-end">
                 <button
-                  className="bg-black w-[237px] md:h-[50px] h-[40px] rounded-[5px] text-white font-normal text-base"
                   type="submit"
+                  className="px-12 py-3 bg-black hover:bg-gray-800 text-white rounded font-medium transition-colors duration-200"
                 >
-                  {t("Submit")}
+                  Send Message
                 </button>
               </div>
             </form>
           </div>
         </div>
-      </section>
+      </div>
     </div>
   );
 }

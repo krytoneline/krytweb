@@ -9,30 +9,17 @@ import {
   languageContext,
   userContext,
 } from "@/pages/_app";
-import Swal from "sweetalert2";
-// import * as rdd from "react-device-detect";
-import { LuLogIn } from "react-icons/lu";
 import { Api } from "@/services/service";
-import { FaSortUp } from "react-icons/fa";
-import { FaSortDown } from "react-icons/fa";
-import { MdNavigateNext } from "react-icons/md";
-import { IoIosArrowDown } from "react-icons/io";
-// import { MdNavigateNext } from "react-icons/md";
-import { IoLocation } from "react-icons/io5";
+import { Store, Heart, User, LogOut, ShoppingBag } from "lucide-react";
+// import { TiArrowSortedUp } from "react-icons/ti";
 import { Drawer, Typography, IconButton, Button } from "@mui/material";
-import { FaCircleChevronDown } from "react-icons/fa6";
-import { FaCircleChevronUp } from "react-icons/fa6";
-import FormControl from "@mui/material/FormControl";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import { IoIosSearch } from "react-icons/io";
 import Categoriess from "./Categoriess";
-import ProductCard from "./ProductCard";
 import Badge from "@mui/material/Badge";
 import { useTranslation } from "react-i18next";
 import ConfirmationModal from "./ConfirmationModel";
-import { TbCategory } from "react-icons/tb";
 import { usePathname } from "next/navigation";
+import { UserRound } from "lucide-react";
+import { IoIosSearch } from "react-icons/io";
 
 const Navbar = (props) => {
   const [navbar, setNavbar] = useState(false);
@@ -98,7 +85,7 @@ const Navbar = (props) => {
         props.loader(false);
         console.log(err);
         props.toaster({ type: "error", message: err?.message });
-      }
+      },
     );
   };
 
@@ -136,7 +123,7 @@ const Navbar = (props) => {
         props.loader(false);
         console.log(err);
         props.toaster({ type: "error", message: err?.message });
-      }
+      },
     );
   };
 
@@ -199,15 +186,11 @@ const Navbar = (props) => {
     <nav className="flex flex-col justify-center  min-h-max h-auto drop-shadow-md bg-white w-full z-50 md:p-0 p-3">
       {/* md:h-[234px]  */}
       {!props.show && (
-        <div className="bg-custom-orange w-full justify-center h-[45px] md:flex hidden">
+        <div className="bg-black w-full justify-center h-[45px] md:flex hidden ">
           <div className="relative flex justify-center">
-            <div className="absolute top-0 -left-10 w-full h-full flex">
-              <img className="h-[45px] z-[1] max-w-[500px]" src="/image.png" />
-              <img className="-ml-[100px] h-[45px] z-[0]" src="/image-1.png" />
-            </div>
-            <p className="text-white font-bold text-[20px] w-full flex items-center justify-center z-[9]">
+            <p className="text-white font-bold text-[18px] w-full flex items-center justify-center ">
               {t("SAVE FOR SURE")}
-              <span className="text-[16px] text-white font-normal ml-10 ">
+              <span className="text-[16px] text-white font-normal ml-4">
                 {t("Lowest price in 90 days")}
               </span>
             </p>
@@ -216,38 +199,8 @@ const Navbar = (props) => {
       )}
       {/* h-[157px]  */}
       <div className="bg-white w-full md:block hidden">
-        {/* h-[130px] */}
-        <div className="md:px-10 mx-auto w-full">
-          {!props.show && (
-            <div className="flex justify-center items-center gap-5 pt-5">
-              <p
-                className={`text-black cursor-pointer ${
-                  categoryType === "Products"
-                    ? "underline underline-offset-8 text-xl font-bold"
-                    : "font-normal text-base "
-                }`}
-                onClick={() => {
-                  setCategoryType("Products");
-                }}
-              >
-                {t("Products")}
-              </p>
-              <p
-                className={`text-black  cursor-pointer ${
-                  categoryType === "Business"
-                    ? "underline underline-offset-8 text-xl font-bold"
-                    : "font-normal text-base "
-                }`}
-                onClick={() => {
-                  setCategoryType("Business");
-                }}
-              >
-                {t("Business")}
-              </p>
-            </div>
-          )}
-
-          <div className="grid grid-cols-12 w-full pt-5 pb-5 items-center justify-between">
+        <div className="md:px-0 max-w-7xl mx-auto w-full">
+          <div className="grid grid-cols-12 w-full py-4 items-center justify-between">
             <img
               className="w-[134px] h-[32px] col-span-2 cursor-pointer"
               src="/icons/main-logo.png"
@@ -280,129 +233,6 @@ const Navbar = (props) => {
             </div>
 
             <div className="col-span-3 xl:col-span-2 flex gap-4 2xl:gap-6 justify-end items-center w-full">
-              {user?.token === undefined && (
-                <p
-                  className="text-[#00000080] text-sm font-normal cursor-pointer"
-                  onClick={() => {
-                    router.push("/auth/signIn");
-                  }}
-                >
-                  {t("Sign in join for free")}
-                </p>
-              )}
-              {user?.token !== undefined && (
-                <div
-                  className="bg-custom-gray text-white  h-[40px] w-[40px] rounded-full  items-center justify-center md:justify-self-end cursor-pointer md:flex hidden relative group"
-                  onClick={() => {
-                    setShowHover(true);
-                  }}
-                >
-                  <p className="font-bold text-white text-base	text-center capitalize">
-                    {user?.username?.charAt(0).toUpperCase()}
-                  </p>
-                  {showHover && (
-                    <div
-                      className={` lg:absolute top-4 right-0 lg:min-w-[250px] group-hover:text-black   hidden group-hover:lg:block hover:lg:block md:!z-50`}
-                    >
-                      <div className="bg-custom-gray  lg:shadow-inner z-10 rounded-md lg:mt-8 shadow-inner">
-                        <TiArrowSortedUp
-                          className={`group-hover:lg:block lg:hidden h-5 w-5 text-custom-gray  absolute top-5 right-0`}
-                        />
-                        <ul>
-                          {user?.type === "SELLER" && !user?.store && (
-                            <li className="px-5 py-2 shadow-inner feature1 border-b-2 border-white">
-                              <Link
-                                href={"/store-create"}
-                                onClick={() => {
-                                  setShowHover(false);
-                                }}
-                                className="block px-5  py-1  pl-0  text-white text-left font-semibold text-base"
-                                aria-current="page"
-                              >
-                                {t("Create Store")}
-                              </Link>
-                            </li>
-                          )}
-
-                          {user?.type === "SELLER" && user?.store && (
-                            <li className="px-5 py-2 shadow-inner feature1 border-b-2 border-white">
-                              <Link
-                                href={"https://www.admin.krytonline.com/"}
-                                target="_blank"
-                                onClick={() => {
-                                  setShowHover(false);
-                                }}
-                                className="block px-5  py-1  pl-0  text-white text-left font-semibold text-base"
-                                aria-current="page"
-                              >
-                                {t("My Store")}
-                              </Link>
-                            </li>
-                          )}
-
-                          <li className="px-5 py-2 shadow-inner feature1 border-b-2 border-white">
-                            <Link
-                              href={"/favourite"}
-                              // target="_blank"
-                              onClick={() => {
-                                setShowHover(false);
-                              }}
-                              className="block px-5  py-1  pl-0  text-white text-left font-semibold text-base"
-                              aria-current="page"
-                            >
-                              {t("My Favourite")}
-                            </Link>
-                          </li>
-                          <li className="px-5 py-2 shadow-inner feature1 border-b-2 border-white">
-                            <Link
-                              href={"/profile"}
-                              // target="_blank"
-                              onClick={() => {
-                                setShowHover(false);
-                              }}
-                              className="block px-5  py-1  pl-0  text-white text-left font-semibold text-base"
-                              aria-current="page"
-                            >
-                              {t("My Profile")}
-                            </Link>
-                          </li>
-
-                          <li className="px-5 shadow-inner feature1  py-2">
-                            <div
-                              onClick={() => {
-                                setSignOutModel(true);
-                                // Swal.fire({
-                                //   title: "Are you sure?",
-                                //   text: "Do you want to signout?",
-                                //   icon: "warning",
-                                //   showCancelButton: true,
-                                //   cancelButtonColor: "#d33",
-                                //   confirmButtonText: "Yes",
-                                //   cancelButtonText: "No",
-                                // }).then(function (result) {
-                                //   if (result.isConfirmed) {
-                                //     setUser({})
-                                //     setShowHover(false);
-                                //     localStorage.removeItem(
-                                //       "userDetail"
-                                //     );
-                                //     localStorage.removeItem("token");
-                                //     router.push('/auth/signIn')
-                                //   }
-                                // })
-                              }}
-                              className="block px-5 py-1  pl-0 text-white text-left font-semibold text-base"
-                              aria-current="page"
-                            >
-                              {t("Sign out")}
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
               <div
                 className="flex flex-col justify-center items-center cursor-pointer"
                 onClick={() => {
@@ -428,6 +258,106 @@ const Navbar = (props) => {
                   {t("Cart")}
                 </p>
               </div>
+              {user?.token === undefined && (
+                <div className="flex flex-col justify-center items-center cursor-pointer">
+                  <UserRound className="text-gray-600" />
+                  <p
+                    className="text-[#00000080] text-sm font-normal cursor-pointer"
+                    onClick={() => {
+                      router.push("/auth/signIn");
+                    }}
+                  >
+                    {t("Sign in")}
+                  </p>
+                </div>
+              )}
+
+              {user?.token !== undefined && (
+                <div
+                  className="bg-black/60 text-white  h-[40px] w-[40px] rounded-full  items-center justify-center md:justify-self-end cursor-pointer md:flex hidden relative group"
+                  onClick={() => {
+                    setShowHover(true);
+                  }}
+                >
+                  <p className="font-bold text-white text-base	text-center capitalize">
+                    {user?.username?.charAt(0).toUpperCase()}
+                  </p>
+                  {showHover && (
+                    <div className="lg:absolute top-4 right-0 lg:min-w-[260px] hidden group-hover:lg:block z-50">
+                      <div className="relative bg-black/60 backdrop-blur-[120px] rounded-xl shadow-2xl mt-8 overflow-hidden border border-white/10">
+                        {/* Arrow */}
+                        <TiArrowSortedUp className="absolute -top-3 right-4 h-6 w-6 text-black/60" />
+
+                        <ul className="py-2 text-sm">
+                          {/* Create Store */}
+                          {user?.type === "SELLER" && !user?.store && (
+                            <li className="hover:bg-white/10 transition">
+                              <Link
+                                href="/store-create"
+                                onClick={() => setShowHover(false)}
+                                className="flex items-center gap-3 px-5 py-3 text-white font-medium"
+                              >
+                                <Store size={18} />
+                                <span>{t("Create Store")}</span>
+                              </Link>
+                            </li>
+                          )}
+
+                          {/* My Store */}
+                          {user?.type === "SELLER" && user?.store && (
+                            <li className="hover:bg-white/10 transition">
+                              <Link
+                                href="https://www.admin.krytonline.com/"
+                                target="_blank"
+                                onClick={() => setShowHover(false)}
+                                className="flex items-center gap-3 px-5 py-3 text-white font-medium"
+                              >
+                                <ShoppingBag size={18} />
+                                <span>{t("My Store")}</span>
+                              </Link>
+                            </li>
+                          )}
+
+                          {/* Favourite */}
+                          <li className="hover:bg-white/10 transition">
+                            <Link
+                              href="/favourite"
+                              onClick={() => setShowHover(false)}
+                              className="flex items-center gap-3 px-5 py-3 text-white font-medium"
+                            >
+                              <Heart size={18} />
+                              <span>{t("My Favourite")}</span>
+                            </Link>
+                          </li>
+
+                          {/* Profile */}
+                          <li className="hover:bg-white/10 transition">
+                            <Link
+                              href="/profile"
+                              onClick={() => setShowHover(false)}
+                              className="flex items-center gap-3 px-5 py-3 text-white font-medium"
+                            >
+                              <User size={18} />
+                              <span>{t("My Profile")}</span>
+                            </Link>
+                          </li>
+
+                          {/* Sign Out */}
+                          <li className="border-t border-white/10 mt-1 hover:bg-red-500/10 transition">
+                            <div
+                              onClick={() => setSignOutModel(true)}
+                              className="flex items-center gap-3 px-5 py-3 text-red-400 font-medium cursor-pointer"
+                            >
+                              <LogOut size={18} />
+                              <span>{t("Sign out")}</span>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
 
@@ -444,38 +374,32 @@ const Navbar = (props) => {
               </div>
             )}
 
-            <Drawer open={showCategory} onClose={closeDrawer}>
-              <div className="w-[310px] relative">
-                <div className="flex items-center justify-between border-b border-custom-newLightGray p-5">
-                  <p className="text-black text-2xl font-normal">
-                    {t("Categories")}
-                  </p>
-                  <IconButton
-                    variant="text"
-                    color="blue-gray"
-                    onClick={closeDrawer}
-                  >
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      strokeWidth={2}
-                      stroke="currentColor"
-                      className="h-5 w-5"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M6 18L18 6M6 6l12 12"
-                      />
-                    </svg>
-                  </IconButton>
-                </div>
-                <div className="pb-[70px]  p-5">
-                  <Categoriess setShowCategory={setShowCategory} />
-                </div>
-              </div>
-            </Drawer>
+            <div className="flex justify-center items-center gap-5 pt-2 pb-2">
+              <p
+                className={`text-black cursor-pointer ${
+                  categoryType === "Products"
+                    ? "underline underline-offset-8 text-xl font-bold"
+                    : "font-normal text-base "
+                }`}
+                onClick={() => {
+                  setCategoryType("Products");
+                }}
+              >
+                {t("Products")}
+              </p>
+              <p
+                className={`text-black  cursor-pointer ${
+                  categoryType === "Business"
+                    ? "underline underline-offset-8 text-xl font-bold"
+                    : "font-normal text-base "
+                }`}
+                onClick={() => {
+                  setCategoryType("Business");
+                }}
+              >
+                {t("Business")}
+              </p>
+            </div>
 
             <div className="flex">
               <select
@@ -492,7 +416,8 @@ const Navbar = (props) => {
           </div>
         </div>
       </div>
-      {!props.show && (
+
+      {/* {!props.show && (
         <div
           className="bg-custom-lightBlue h-[44px] md:flex justify-center items-center hidden cursor-pointer"
           onClick={() => {
@@ -516,7 +441,7 @@ const Navbar = (props) => {
             </div>
           </div>
         </div>
-      )}
+      )} */}
 
       {/* mobile view */}
       <div className="md:hidden flex flex-row justify-between items-center gap-5">
@@ -540,8 +465,6 @@ const Navbar = (props) => {
           <IoIosSearch className="w-5 h-5 text-[#00000060]" />
         </div>
       </div>
-      {/* mobile view */}
-
       <Drawer open={showCategory1} anchor="top" onClose={closeDrawer1}>
         <div className="md:px-10 mx-auto w-full  relative">
           <div className="md:px-0 px-5 py-5 flex justify-start items-center gap-5">
@@ -608,6 +531,32 @@ const Navbar = (props) => {
         title="Are you sure?"
         description="Do you want to signout?"
       />
+      <Drawer open={showCategory} onClose={closeDrawer}>
+        <div className="w-[310px] relative">
+          <div className="flex items-center justify-between border-b border-custom-newLightGray p-5">
+            <p className="text-black text-2xl font-normal">{t("Categories")}</p>
+            <IconButton variant="text" color="blue-gray" onClick={closeDrawer}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth={2}
+                stroke="currentColor"
+                className="h-5 w-5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </IconButton>
+          </div>
+          <div className="pb-[70px]  p-5">
+            <Categoriess setShowCategory={setShowCategory} />
+          </div>
+        </div>
+      </Drawer>
     </nav>
   );
 };

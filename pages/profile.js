@@ -63,7 +63,7 @@ function Profile(props) {
         console.log(err);
         props.toaster({ type: "error", message: err?.data?.message });
         props.toaster({ type: "error", message: err?.message });
-      }
+      },
     );
   };
 
@@ -98,7 +98,7 @@ function Profile(props) {
         console.log(err);
         props.toaster({ type: "error", message: err?.data?.message });
         props.toaster({ type: "error", message: err?.message });
-      }
+      },
     );
   };
 
@@ -143,126 +143,141 @@ function Profile(props) {
         console.log(err);
         props.toaster({ type: "error", message: err?.data?.message });
         props.toaster({ type: "error", message: err?.message });
-      }
+      },
     );
   };
 
   return (
     <>
-      <div className="min-h-[500px] bg-white px-2 py-8 flex justify-center">
-        <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-8">
-        
-          <div className="bg-white border border-black/10 rounded-2xl shadow-lg">
-            <div className="border-b border-black/10 py-6 text-center">
-              <h1 className="text-3xl font-bold text-black">
-                {t("My Profile")}
-              </h1>
-            </div>
+      <div className="min-h-screen bg-gray-50 px-4 py-8">
+        {/* Breadcrumb */}
+        <div className="max-w-7xl mx-auto mb-6">
+          <p className="text-sm text-gray-600">
+            Home / <span className="text-gray-900">Profile</span>
+          </p>
+        </div>
 
-            <div className="p-6 md:p-8 space-y-5">
+        {/* Main Content */}
+        <div className="max-w-7xl mx-auto bg-white rounded-lg shadow-sm p-4 md:p-8">
+          <h1 className="text-2xl font-semibold text-gray-900 mb-8">
+            Edit Your Profile
+          </h1>
+
+          {/* Profile Form */}
+          <div className="space-y-6">
+            {/* First Name and Last Name Row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <div className="flex items-center gap-3 border border-black/20 rounded-xl px-4 py-3 focus-within:border-black transition">
-                  <IoIosContact className="text-black/60 w-5 h-5" />
-                  <input
-                    className="w-full bg-transparent outline-none text-black placeholder-black/50"
-                    placeholder={t("Name")}
-                    value={userDetail.name}
-                    onChange={(e) =>
-                      setUserDetail({ ...userDetail, name: e.target.value })
-                    }
-                  />
-                </div>
+                <label className="block text-sm font-medium text-gray-900 mb-2">
+                  First Name
+                </label>
+                <input
+                  className="w-full bg-gray-100 border-0 rounded px-4 py-3 text-gray-900 placeholder-gray-500 outline-none focus:ring-0"
+                  placeholder="Md"
+                  value={userDetail.name}
+                  onChange={(e) =>
+                    setUserDetail({ ...userDetail, name: e.target.value })
+                  }
+                />
                 {submitted && !userDetail.name && (
-                  <p className="text-sm text-black/70 mt-1">
+                  <p className="text-sm text-red-600 mt-1">
                     {t("Name is required")}
                   </p>
                 )}
               </div>
 
               <div>
-                <div className="flex items-center gap-3 border border-black/20 rounded-xl px-4 py-3 focus-within:border-black transition">
-                  <AiOutlineMail className="text-black/60 w-5 h-5" />
-                  <input
-                    className="w-full bg-transparent outline-none text-black placeholder-black/50"
-                    placeholder={t("Email")}
-                    value={userDetail.email}
-                    onChange={(e) =>
-                      setUserDetail({ ...userDetail, email: e.target.value })
-                    }
-                  />
-                </div>
+                <label className="block text-sm font-medium text-gray-900 mb-2">
+                  Phone Number
+                </label>
+                <input
+                  className="w-full bg-gray-100 border-0 rounded px-4 py-3 text-gray-900 placeholder-gray-500 outline-none focus:ring-0"
+                  placeholder="Rimel"
+                  value={userDetail.number}
+                  onChange={(e) =>
+                    setUserDetail({ ...userDetail, number: e.target.value })
+                  }
+                />
+                {submitted && !userDetail.number && (
+                  <p className="text-sm text-red-600 mt-1">
+                    {t("Phone is required")}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* Email and Address Row */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-900 mb-2">
+                  Email
+                </label>
+                <input
+                  className="w-full bg-gray-100 border-0 rounded px-4 py-3 text-gray-900 placeholder-gray-500 outline-none focus:ring-0"
+                  placeholder="rimel1111@gmail.com"
+                  value={userDetail.email}
+                  onChange={(e) =>
+                    setUserDetail({ ...userDetail, email: e.target.value })
+                  }
+                />
                 {submitted && !userDetail.email && (
-                  <p className="text-sm text-black/70 mt-1">
+                  <p className="text-sm text-red-600 mt-1">
                     {t("Email is required")}
                   </p>
                 )}
               </div>
 
-              <div>
-                <div className="flex items-center gap-3 border border-black/20 rounded-xl px-4 py-3 focus-within:border-black transition">
-                  <MdOutlinePhoneAndroid className="text-black/60 w-5 h-5" />
+              {/* <div>
+                <label className="block text-sm font-medium text-gray-900 mb-2">
+                  Address
+                </label>
+                <input
+                  className="w-full bg-gray-100 border-0 rounded px-4 py-3 text-gray-900 placeholder-gray-500 outline-none focus:ring-0"
+                  placeholder="Kingston, 5236, United State"
+                  // Add address field to your state if needed
+                />
+              </div> */}
+            </div>
+
+            {/* Password Changes Section */}
+            <div className="pt-6">
+              <h2 className="text-base font-medium text-gray-900 mb-4">
+                Password Changes
+              </h2>
+
+              <div className="space-y-4">
+                <div>
                   <input
-                    className="w-full bg-transparent outline-none text-black placeholder-black/50"
-                    placeholder={t("Phone number")}
-                    value={userDetail.number}
-                    onChange={(e) =>
-                      setUserDetail({ ...userDetail, number: e.target.value })
-                    }
+                    type="password"
+                    placeholder="New Passwod"
+                    className="w-full bg-gray-100 border-0 rounded px-4 py-3 text-gray-900 placeholder-gray-500 outline-none focus:ring-0"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
-                {submitted && !userDetail.number && (
-                  <p className="text-sm text-black/70 mt-1">
-                    {t("Phone is required")}
-                  </p>
-                )}
+
+                <div>
+                  <input
+                    type="password"
+                    placeholder="Confirm New Passwod"
+                    className="w-full bg-gray-100 border-0 rounded px-4 py-3 text-gray-900 placeholder-gray-500 outline-none focus:ring-0"
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
+                </div>
               </div>
+            </div>
+
+            <div className="w-full flex flex-row items-center gap-4 pt-4 justify-end">
+              <button className="border-2 border-gray-400 rounded-xl px-6 py-3 text-gray-900 hover:text-gray-700 transition">
+                Cancel
+              </button>
 
               <button
                 onClick={submit}
-                className="w-full bg-black text-white py-3 rounded-xl text-lg font-medium hover:bg-black/90 transition"
+                className="px-8 py-3 bg-black text-white rounded-xl hover:bg-gray-700 transition"
               >
-                {t("Update")}
-              </button>
-            </div>
-          </div>
-
-          <div className="bg-white border border-black/10 rounded-2xl shadow-lg">
-            <div className="border-b border-black/10 py-6 text-center">
-              <h2 className="text-3xl font-bold text-black">
-                {t("Change Password")}
-              </h2>
-            </div>
-
-            <div className="p-6 md:p-8 space-y-5">
-             
-              <div className="flex items-center gap-3 border border-black/20 rounded-xl px-4 py-3 focus-within:border-black transition">
-                <AiFillLock className="text-black/60 w-5 h-5" />
-                <input
-                  type="password"
-                  placeholder={t("New Password")}
-                  className="w-full bg-transparent outline-none text-black placeholder-black/50"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-              </div>
-
-              {/* Confirm Password */}
-              <div className="flex items-center gap-3 border border-black/20 rounded-xl px-4 py-3 focus-within:border-black transition">
-                <AiFillLock className="text-black/60 w-5 h-5" />
-                <input
-                  type="password"
-                  placeholder={t("Confirm Password")}
-                  className="w-full bg-transparent outline-none text-black placeholder-black/50"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-              </div>
-
-              <button
-                onClick={Submit}
-                className="w-full bg-black text-white py-3 rounded-xl text-lg font-medium hover:bg-black/90 transition"
-              >
-                {t("Submit")}
+                Save 
               </button>
             </div>
           </div>
