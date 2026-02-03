@@ -1,150 +1,199 @@
-import React, { useState } from 'react'
+import React, { useState } from "react";
 import { useRouter } from "next/router";
-import { Api } from '@/services/service';
-import { IoEyeOffOutline } from "react-icons/io5";
-import { IoEyeOutline } from "react-icons/io5";
+import { Api } from "@/services/service";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 import { useTranslation } from "react-i18next";
 
-function signUp(props) {
-    const router = useRouter();
-    const [userDetail, setUserDetail] = useState({
-        name: "",
-        email: "",
-        type: "",
-        phoneNumber: "",
-        password: "",
+function SignUp(props) {
+  const router = useRouter();
+  const { t } = useTranslation();
 
-    });
-    const [eyeIcon, setEyeIcon] = useState(false);
-    const { t } = useTranslation();
+  const [userDetail, setUserDetail] = useState({
+    name: "",
+    email: "",
+    type: "",
+    phoneNumber: "",
+    password: "",
+  });
 
+  const [eyeIcon, setEyeIcon] = useState(false);
+  const [focusedField, setFocusedField] = useState(null);
 
-    const submit = (e) => {
-        e.preventDefault();
+  const submit = (e) => {
+    e.preventDefault();
+    props.loader(true);
 
-        props.loader(true);
-        const data = {
-            email: userDetail.email.toLowerCase(),
-            username: userDetail.name,
-            password: userDetail.password,
-            number: userDetail.phoneNumber,
-            type: userDetail.type,
-        };
-        Api("post", "signUp", data, router).then(
-            (res) => {
-                console.log("res================>", res);
-                props.loader(false);
-
-                if (res?.success) {
-                    router.push("/auth/signIn");
-                    setUserDetail({
-                        name: "",
-                        email: "",
-                        company: "",
-                        phoneNumber: "",
-                        password: "",
-                    });
-                    props.toaster({ type: "success", message: 'Register successfully' });
-                } else {
-                    console.log(res?.data?.message);
-                    props.toaster({ type: "error", message: res?.data?.message });
-                }
-            },
-            (err) => {
-                props.loader(false);
-                console.log(err);
-                props.toaster({ type: "error", message: err?.message });
-            }
-        );
+    const data = {
+      email: userDetail.email.toLowerCase(),
+      username: userDetail.name,
+      password: userDetail.password,
+      number: userDetail.phoneNumber,
+      type: userDetail.type,
     };
 
-    return (
-        <div className="bg-white w-full">
-            <section className="bg-white w-full relative flex flex-col justify-center items-center">
-                <div className="max-w-7xl mx-auto w-full md:px-0 px-5 md:pt-10 pt-5 md:pb-10 pb-5">
-                    <div className="bg-custom-lightGrayColors w-full rounded-[20px] border border-custom-darkGrayColor md:p-10 p-5">
-                        <form className="grid md:grid-cols-3 grid-cols-1 w-full md:gap-0 gap-5" onSubmit={submit}>
-                            <div className="flex flex-col justify-center">
-                                <p className="md:text-3xl text-2xl text-black font-bold pb-5 text-center">{t("Sign up")}</p>
+    Api("post", "signUp", data, router).then(
+      (res) => {
+        props.loader(false);
+        if (res?.success) {
+          router.push("/auth/signIn");
+          setUserDetail({
+            name: "",
+            email: "",
+            type: "",
+            phoneNumber: "",
+            password: "",
+          });
+          props.toaster({ type: "success", message: "Register successfully" });
+        } else {
+          props.toaster({ type: "error", message: res?.data?.message });
+        }
+      },
+      (err) => {
+        props.loader(false);
+        props.toaster({ type: "error", message: err?.message });
+      },
+    );
+  };
 
-                                <select className="bg-white w-full md:h-[50px] h-[40px] px-5 rounded-[5px] border-2 border-custom-newLightGray font-normal md:text-lg text-base text-custom-newLightGrayColor outline-none mb-5" type="text" placeholder="Company"
-                                    required
-                                    value={userDetail.type}
-                                    onChange={(text) => {
-                                        setUserDetail({
-                                            ...userDetail,
-                                            type: text.target.value,
-                                        });
-                                    }}
-                                >
-                                    <option value="">{t("Select User Type")}</option>
-                                    <option value="USER">{t("User")}</option>
-                                    <option value="SELLER">{t("Seller")}</option>
-                                </select>
+  return (
+    <div
+      className="min-h-[700px] flex items-center justify-center p-4"
+      style={{
+        backgroundImage: "url('/image12.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div className="flex w-full max-w-6xl shadow-2xl rounded-2xl overflow-hidden min-h-[600px]">
+        {/* LEFT */}
+        <div className="relative flex flex-col bg-[#111111] p-8 flex-1">
+          <div className="bg-white inline-flex self-start px-3 py-1.5 rounded">
+            <span className="font-black tracking-widest text-black">KRYT</span>
+          </div>
+          <h2 className="text-white text-center md:text-4xl mb-6 mt-4">
+            {t("Defy the Past")}
+            <br />
+            {t("Step into the")}
+            <br />
+            {t("Future")}
+          </h2>
 
-                                <input className="bg-white w-full md:h-[50px] h-[40px] px-5 rounded-[5px] border-2 border-custom-newLightGray font-normal md:text-lg text-base text-black outline-none mb-5" type="text" placeholder={t("Name")}
-                                    required
-                                    value={userDetail.name}
-                                    onChange={(text) => {
-                                        setUserDetail({
-                                            ...userDetail,
-                                            name: text.target.value,
-                                        });
-                                    }} />
-
-
-                                <input className="bg-white w-full md:h-[50px] h-[40px] px-5 rounded-[5px] border-2 border-custom-newLightGray font-normal md:text-lg text-base text-black outline-none mb-5" type="email" placeholder={t("Email")}
-                                    required
-                                    value={userDetail.email}
-                                    onChange={(text) => {
-                                        setUserDetail({
-                                            ...userDetail,
-                                            email: text.target.value,
-                                        });
-                                    }} />
-
-                                <input className="bg-white w-full md:h-[50px] h-[40px] px-5 rounded-[5px] border-2 border-custom-newLightGray font-normal md:text-lg text-base text-black outline-none mb-5" type="number" placeholder={t("Phone Number")}
-                                    required
-                                    value={userDetail.phoneNumber}
-                                    onChange={(text) => {
-                                        setUserDetail({
-                                            ...userDetail,
-                                            phoneNumber: text.target.value,
-                                        });
-                                    }}
-                                />
-                                <div className='relative'>
-                                    <input className="bg-white w-full md:h-[50px] h-[40px] px-5 rounded-[5px] border-2 border-custom-newLightGray font-normal md:text-lg text-base text-black outline-none mb-10" placeholder="*********"
-                                        required
-                                        type={!eyeIcon ? "password" : "text"}
-                                        value={userDetail.password}
-                                        onChange={(text) => {
-                                            setUserDetail({
-                                                ...userDetail,
-                                                password: text.target.value,
-                                            });
-                                        }} />
-                                    <div className='absolute md:top-[14px] top-[10px] right-[12px]'>
-                                        {!eyeIcon && <IoEyeOffOutline className='w-[20px] h-[20px] text-custom-newLightGray' onClick={() => { setEyeIcon(true); }} />}
-                                        {eyeIcon && <IoEyeOutline className='w-[20px] h-[20px] text-custom-newLightGray' onClick={() => { setEyeIcon(false); }} />}
-                                    </div>
-                                </div>
-                                <button className="bg-custom-red md:h-[50px] h-[40px] w-full rounded-[10px] AnonymousPro font-bold md:text-xl text-base text-white md:mb-10 mb-5" type="submit">{t("Sign up")}</button>
-                                <p className="md:text-lg text-base text-black font-normal AnonymousPro">
-                                    {t("Already have an account")}? <span className="font-bold text-black cursor-pointer" onClick={() => {
-                                        router.push("/auth/signIn");
-                                    }}>{t("Sign in")}</span>
-                                </p>
-                            </div>
-                            <div className='md:flex justify-center items-center col-span-2 hidden'>
-                                <img className='h-[550px] object-contain' src='/image-17.png' />
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </section>
+          <div className="absolute bottom-0 -right-14">
+            <img src="/headPhone.png" className="h-[430px]" />
+          </div>
         </div>
-    )
+
+        <div className="flex flex-col items-center justify-center bg-white px-4 py-14 flex-[1.75]">
+          <h1 className="text-2xl font-bold mb-10 text-black">
+            {t("Create Account")}
+          </h1>
+
+          <form className="w-full max-w-md" onSubmit={submit}>
+            <select
+              value={userDetail.type}
+              onChange={(e) =>
+                setUserDetail({ ...userDetail, type: e.target.value })
+              }
+              onFocus={() => setFocusedField("type")}
+              onBlur={() => setFocusedField(null)}
+              required
+              className={`w-full bg-transparent mb-5 text-gray-500 outline-none py-2 pr-7 border-b-2
+              ${focusedField === "type" ? "border-black" : "border-gray-300"}`}
+            >
+              <option value="">{t("Select User Type")}</option>
+              <option value="USER">{t("User")}</option>
+              <option value="SELLER">{t("Seller")}</option>
+            </select>
+
+            {/* NAME */}
+            <input
+              type="text"
+              placeholder={t("Name")}
+              required
+              value={userDetail.name}
+              onChange={(e) =>
+                setUserDetail({ ...userDetail, name: e.target.value })
+              }
+              onFocus={() => setFocusedField("name")}
+              onBlur={() => setFocusedField(null)}
+              className={`w-full py-2 mb-5 text-gray-500 border-b-2 outline-none
+              ${focusedField === "name" ? "border-black" : "border-gray-300"}`}
+            />
+
+            {/* EMAIL */}
+            <input
+              type="email"
+              placeholder={t("Email")}
+              required
+              value={userDetail.email}
+              onChange={(e) =>
+                setUserDetail({ ...userDetail, email: e.target.value })
+              }
+              onFocus={() => setFocusedField("email")}
+              onBlur={() => setFocusedField(null)}
+              className={`w-full bg-transparent mb-5  text-gray-500 outline-none py-2 pr-7 border-b-2
+              ${focusedField === "email" ? "border-black" : "border-gray-300"}`}
+            />
+
+            <input
+              type="number"
+              placeholder={t("Phone Number")}
+              required
+              value={userDetail.phoneNumber}
+              onChange={(e) =>
+                setUserDetail({ ...userDetail, phoneNumber: e.target.value })
+              }
+              onFocus={() => setFocusedField("phone")}
+              onBlur={() => setFocusedField(null)}
+              className={`w-full bg-transparent  text-gray-500 mb-5 outline-none py-2 pr-7 border-b-2
+              ${focusedField === "phone" ? "border-black" : "border-gray-300"}`}
+            />
+
+            <div className="relative mb-10">
+              <input
+                type={eyeIcon ? "text" : "password"}
+                placeholder="********"
+                required
+                value={userDetail.password}
+                onChange={(e) =>
+                  setUserDetail({ ...userDetail, password: e.target.value })
+                }
+                onFocus={() => setFocusedField("password")}
+                onBlur={() => setFocusedField(null)}
+                className={`w-full bg-transparent  text-gray-500 outline-none py-2 pr-7 border-b-2
+                ${focusedField === "password" ? "border-black" : "border-gray-300"}`}
+              />
+              <div
+                className="absolute top-3 right-4 cursor-pointer"
+                onClick={() => setEyeIcon(!eyeIcon)}
+              >
+                {eyeIcon ? <IoEyeOutline /> : <IoEyeOffOutline />}
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              className="bg-custom-red h-[45px] w-full rounded-lg text-white font-bold mb-5"
+            >
+              {t("Sign up")}
+            </button>
+
+            <div className="flex justify-center items-center mt-10">
+              <p className="text-gray-400">
+                {t("Already have an account")}{" "}
+                <span
+                  className="font-bold cursor-pointer text-black"
+                  onClick={() => router.push("/auth/signIn")}
+                >
+                  {t("Sign in")}
+                </span>
+              </p>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default signUp
+export default SignUp;

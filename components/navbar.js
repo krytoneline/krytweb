@@ -318,7 +318,7 @@ const Navbar = (props) => {
                             </li>
                           )}
 
-                          {/* Favourite */}
+                  
                           <li className="hover:bg-white/10 transition">
                             <Link
                               href="/favourite"

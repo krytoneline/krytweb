@@ -59,12 +59,12 @@ function GetInTouch(props) {
   return (
     <div className="min-h-[600px] bg-gray-50 p-4 md:py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-        {/* Breadcrumb */}
+       
         <div className="md:mb-8 mb-3">
           <p className="text-sm text-gray-600">
-            <span className="hover:text-gray-900 cursor-pointer" onClick={()=> router.push("/")}>Home</span>
+            <span className="hover:text-gray-900 cursor-pointer" onClick={()=> router.push("/")}>{t("Home")}</span>
             <span className="mx-2">/</span>
-            <span className="text-gray-900 font-medium">Contact</span>
+            <span className="text-gray-900 font-medium">{t("Contact")}</span>
           </p>
         </div>
 
@@ -78,7 +78,7 @@ function GetInTouch(props) {
                   <FaPhoneAlt className="w-5 h-5 text-white" />
                 </div>
                 <h3 className="ml-3 text-lg font-semibold text-gray-900">
-                  Call To Us
+                  {t("Call To Us")}
                 </h3>
               </div>
               <p className="text-sm text-gray-600 mb-2 ">
@@ -88,11 +88,11 @@ function GetInTouch(props) {
                 Royal Road, La Paix Piton, Mauritius
               </p>
               <p className="text-sm text-gray-600 mb-2">
-                We are available 24/7, 7 days a week.
+                {t("We are available 24/7, 7 days a week.")}
               </p>
               <p className="text-sm text-gray-600 mb-2">
                 {" "}
-                Phone: <a href="tel:+23057322255">+23057322255</a>
+                {t("Phone:")} <a href="tel:+23057322255">+23057322255</a>
               </p>
             </div>
 
@@ -104,14 +104,14 @@ function GetInTouch(props) {
                   <FaEnvelope className="w-5 h-5 text-white" />
                 </div>
                 <h3 className="ml-3 text-lg font-semibold text-gray-900">
-                  Write To US
+                  {t("Write To US")}
                 </h3>
               </div>
               <p className="text-sm text-gray-600 mb-2">
-                Fill out our form and we will contact you within 24 hours.
+                {t("Fill out our form and we will contact you within 24 hours.")}
               </p>
               <p className="text-sm text-gray-900 mb-2">
-                Emails: customer@exclusive.com
+                {t("Emails:")} customer@exclusive.com
               </p>
              
             </div>
@@ -123,7 +123,7 @@ function GetInTouch(props) {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <input
                   type="text"
-                  placeholder="Your Name *"
+                  placeholder={t("Your Name *")}
                   required
                   value={getInTouchData.firstName}
                   onChange={(e) =>
@@ -136,7 +136,7 @@ function GetInTouch(props) {
                 />
                 <input
                   type="email"
-                  placeholder="Your Email *"
+                  placeholder={t("Your Email *")}
                   required
                   value={getInTouchData.email}
                   onChange={(e) =>
@@ -149,7 +149,7 @@ function GetInTouch(props) {
                 />
                 <input
                   type="tel"
-                  placeholder="Your Phone *"
+                  placeholder={t("Your Phone *")}
                   required
                   value={getInTouchData.phoneNumber}
                   onChange={(e) =>
@@ -164,7 +164,7 @@ function GetInTouch(props) {
 
               {/* Message Textarea */}
               <textarea
-                placeholder="Your Message"
+                placeholder={t("Your Message")}
                 rows={8}
                 value={getInTouchData.description}
                 onChange={(e) =>
@@ -182,7 +182,7 @@ function GetInTouch(props) {
                   type="submit"
                   className="px-12 py-3 bg-black hover:bg-gray-800 text-white rounded font-medium transition-colors duration-200"
                 >
-                  Send Message
+                  {t("Send Message")}
                 </button>
               </div>
             </form>

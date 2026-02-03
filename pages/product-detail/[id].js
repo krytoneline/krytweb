@@ -420,14 +420,14 @@ function ProductDetail(props) {
         <div className="max-w-7xl mx-auto w-full md:px-0 px-5 md:pt-10 pt-5 md:pb-10 pb-5">
           <div className="grid md:grid-cols-3 grid-cols-1 w-full md:gap-5">
             <div className="w-full col-span-2">
-              <p className="text-custom-newBlacks md:text-lg text-base font-semibold">
+              <p className="text-custom-newBlacks md:text-2xl text-base font-semibold">
                 {productsId?.name}
               </p>
-              {productsId?.reviews?.length === 0 && (
+              {/* {productsId?.reviews?.length === 0 && (
                 <p className="text-custom-newBlackColor font-normal text-sm pt-5">
                   {t("No reviews yet")}
                 </p>
-              )}
+              )} */}
               {productsId?.reviews?.length > 0 && (
                 <Box sx={{ width: 200, display: "flex", alignItems: "center" }}>
                   <Rating
@@ -443,21 +443,23 @@ function ProductDetail(props) {
                 </Box>
               )}
 
-              <div className="grid md:grid-cols-12 grid-cols-1 w-full gap-5 mt-5">
-                <div className="w-full md:h-[500px] flex md:flex-col flex-row overflow-y-auto overflow-x-hidden">
+              <div className="w-full flex md:flex-row flex-col gap-5 mt-5">
+                {/* Thumbnails */}
+                <div className="md:w-[100px] w-full md:h-[500px] flex md:flex-col flex-row overflow-y-auto overflow-x-auto md:overflow-x-hidden">
                   {selectedImageList?.map((item, i) => (
-                    <div className="w-full">
+                    <div key={i} className="shrink-0">
                       <img
-                        className={`md:!w-[60px] w-[60px] md:h-[60px] h-[60px] object-contain md:mb-5 p-2 rounded-[10px] ${selectedImage === item ? "border border-black" : ""}`}
+                        className={`md:w-24 w-[60px] md:h-20 h-[60px] object-contain md:mb-5 mr-3 md:mr-0 p-2 rounded-[10px] cursor-pointer
+            ${selectedImage === item ? "border border-black" : ""}`}
                         src={item}
-                        onClick={() => {
-                          setSelectedImage(item);
-                        }}
+                        onClick={() => setSelectedImage(item)}
                       />
                     </div>
                   ))}
                 </div>
-                <div className="w-full col-span-11 bg-custom-newLightGrayColors rounded-[20px]">
+
+                {/* Main Image */}
+                <div className="w-[400px] bg-custom-newLightGrayColors rounded-[20px] flex items-center justify-center">
                   <img
                     className="w-full md:h-[500px] object-contain"
                     src={selectedImage}

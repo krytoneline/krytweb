@@ -54,13 +54,6 @@ function Cart(props) {
   const [cartClosed, setCartClosed] = useState(false);
 
   const options = useMemo(() => countryList().getData(), []);
-  console.log(options);
-
-  useEffect(() => {
-    // setShowPayment(true)
-    console.log(showPayment);
-    // profile()
-  }, []);
 
   useEffect(() => {
     let cart = localStorage.getItem("addCartDetail");
@@ -271,12 +264,12 @@ function Cart(props) {
             </section> */}
       <p className="text-black  text-2xl font-medium md:px-0 mx-auto w-full py-5 px-5"></p>
       <div className="md:mb-8 mb-3">
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-gray-600 md:ps-0 ps-4">
           <span
             className="hover:text-gray-900 cursor-pointer"
             onClick={() => router.push("/")}
           >
-            Home
+            {t("Home")}
           </span>
           <span className="mx-2">/</span>
           <span className="text-gray-900 font-medium"> {t("Cart")}</span>
@@ -426,12 +419,12 @@ function Cart(props) {
                   ) : (
                     <div className="text-sm text-gray-500">
                       <p>{t("No address added yet")}</p>
-                      <button
+                      {/* <button
                         onClick={() => setShowcart(true)}
                         className="mt-2 text-sm text-custom-red font-medium hover:underline"
                       >
                         + {t("Add Address")}
-                      </button>
+                      </button> */}
                     </div>
                   )}
                 </div>
@@ -504,200 +497,182 @@ function Cart(props) {
       )}
 
       {showcart && (
-        <div className="fixed top-0 left-0 w-screen h-screen bg-black/30 flex justify-center items-center z-50">
-          <div className="relative w-[300px] md:w-[360px] h-auto  bg-white rounded-[15px] m-auto max-h-screen overflow-auto">
-            <div
-              className="absolute top-2 right-2 p-1 rounded-full  text-black w-8 h-8 cursor-pointer"
-              onClick={() => {
-                setShowcart(false);
-                setShowPayment(false);
-              }}
-            >
-              <RxCrossCircled className="h-full w-full font-semibold " />
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center px-4">
+          <div className="relative w-full max-w-[900px] bg-white rounded-2xl shadow-2xl overflow-hidden grid md:grid-cols-2">
+            {/* LEFT : ADDRESS FORM */}
+            <div className="p-6 md:p-8 border-r">
+              <h2 className="text-2xl font-bold text-black mb-1">
+                Shipping Address
+              </h2>
+              <p className="text-sm text-gray-500 mb-6">
+                Fill the address to proceed with payment
+              </p>
+
+              <div className="space-y-4">
+                <input
+                  className="w-full h-[45px] px-4 rounded-xl border border-gray-300 focus:border-black outline-none"
+                  placeholder="First Name"
+                  value={shippingAddressData.firstName}
+                  onChange={(e) =>
+                    setShippingAddressData({
+                      ...shippingAddressData,
+                      firstName: e.target.value,
+                    })
+                  }
+                />
+
+                <input
+                  className="w-full h-[45px] px-4 rounded-xl border border-gray-300 focus:border-black outline-none"
+                  placeholder="Address"
+                  value={shippingAddressData.address}
+                  onChange={(e) =>
+                    setShippingAddressData({
+                      ...shippingAddressData,
+                      address: e.target.value,
+                    })
+                  }
+                />
+
+                {/* <div className="grid grid-cols-2 gap-3"> */}
+                <input
+                  className="w-full h-[45px] px-4 rounded-xl border border-gray-300 focus:border-black outline-none"
+                  placeholder="Pin Code"
+                  value={shippingAddressData.pinCode}
+                  onChange={(e) =>
+                    setShippingAddressData({
+                      ...shippingAddressData,
+                      pinCode: e.target.value,
+                    })
+                  }
+                />
+                <input
+                  className="w-full h-[45px] px-4 rounded-xl border border-gray-300 focus:border-black outline-none"
+                  placeholder="City"
+                  value={shippingAddressData.city}
+                  onChange={(e) =>
+                    setShippingAddressData({
+                      ...shippingAddressData,
+                      city: e.target.value,
+                    })
+                  }
+                />
+                {/* </div> */}
+
+                <input
+                  className="w-full h-[45px] px-4 rounded-xl border border-gray-300 focus:border-black outline-none"
+                  placeholder="Phone Number"
+                  value={shippingAddressData.phoneNumber}
+                  onChange={(e) =>
+                    setShippingAddressData({
+                      ...shippingAddressData,
+                      phoneNumber: e.target.value,
+                    })
+                  }
+                />
+
+                <Select
+                  placeholder="Country"
+                  options={options}
+                  value={shippingAddressData.country}
+                  onChange={(val) =>
+                    setShippingAddressData({
+                      ...shippingAddressData,
+                      country: val,
+                    })
+                  }
+                />
+              </div>
             </div>
 
-            <form className="px-5 py-5" onSubmit={payPalPayment}>
-              {/* onSubmit={createProductRquest} */}
-              {showPayment && (
-                <p className="text-black font-bold text-2xl mb-5">
-                  {t("PayPal Payment")}
-                </p>
-              )}
+            <div className="p-6 md:p-8 bg-gray-50 flex flex-col justify-between">
+              <div>
+                <h2 className="text-2xl font-bold text-black mb-4">
+                  Order Summary
+                </h2>
 
-              {!showPayment && (
-                <div className="w-full">
-                  <p className="text-black font-bold text-2xl mb-5">
-                    {t("Shipping Address")}
-                  </p>
-
-                  <div className="w-full">
-                    <input
-                      className="bg-white w-full md:h-[50px] h-[40px] px-5 rounded-[10px] border border-custom-newGray font-normal  text-base text-black outline-none mb-5"
-                      type="text"
-                      placeholder={t("First Name")}
-                      required
-                      value={shippingAddressData?.firstName}
-                      onChange={(text) => {
-                        setShippingAddressData({
-                          ...shippingAddressData,
-                          firstName: text.target.value,
-                        });
-                      }}
-                    />
+                <div className="space-y-2 text-sm text-gray-700">
+                  <div className="flex justify-between">
+                    <span>Subtotal</span>
+                    <span>
+                      {" "}
+                      {constant?.currency}
+                      {CartTotal}
+                    </span>
                   </div>
-
-                  <div className="w-full">
-                    <input
-                      className="bg-white w-full md:h-[50px] h-[40px] px-5 rounded-[10px] border border-custom-newGray font-normal  text-base text-black outline-none mb-5"
-                      type="text"
-                      placeholder={t("Address")}
-                      required
-                      value={shippingAddressData?.address}
-                      onChange={(text) => {
-                        setShippingAddressData({
-                          ...shippingAddressData,
-                          address: text.target.value,
-                        });
-                      }}
-                    />
+                  <div className="flex justify-between">
+                    <span>Shipping</span>
+                    <span>Free</span>
                   </div>
-
-                  <div className="w-full">
-                    <input
-                      className="bg-white w-full md:h-[50px] h-[40px] px-5 rounded-[10px] border border-custom-newGray font-normal  text-base text-black outline-none mb-5"
-                      type="text"
-                      placeholder={t("Pin Code")}
-                      required
-                      value={shippingAddressData?.pinCode}
-                      onChange={(text) => {
-                        setShippingAddressData({
-                          ...shippingAddressData,
-                          pinCode: text.target.value,
-                        });
-                      }}
-                    />
-                  </div>
-
-                  <div className="w-full">
-                    <input
-                      className="bg-white w-full md:h-[50px] h-[40px] px-5 rounded-[10px] border border-custom-newGray font-normal  text-base text-black outline-none mb-5"
-                      type="number"
-                      placeholder={t("Phone number")}
-                      required
-                      value={shippingAddressData?.phoneNumber}
-                      onChange={(text) => {
-                        setShippingAddressData({
-                          ...shippingAddressData,
-                          phoneNumber: text.target.value,
-                        });
-                      }}
-                    />
-                  </div>
-
-                  <div className="w-full">
-                    <input
-                      className="bg-white w-full md:h-[50px] h-[40px] px-5 rounded-[10px] border border-custom-newGray font-normal  text-base text-black outline-none mb-5"
-                      type="text"
-                      placeholder={t("City")}
-                      required
-                      value={shippingAddressData?.city}
-                      onChange={(text) => {
-                        setShippingAddressData({
-                          ...shippingAddressData,
-                          city: text.target.value,
-                        });
-                      }}
-                    />
-                  </div>
-
-                  <div className="w-full">
-                    {/* <input className="bg-white w-full md:h-[50px] h-[40px] px-5 rounded-[10px] border border-custom-newGray font-normal  text-base text-black outline-none mb-5" type="text" placeholder={t("Country")}
-                                    required
-                                    value={shippingAddressData?.country}
-                                    onChange={(text) => {
-                                        setShippingAddressData({
-                                            ...shippingAddressData,
-                                            country: text.target.value,
-                                        });
-                                    }}
-                                /> */}
-                    <Select
-                      className="md:!min-h-[50px] min-h-[40px] mb-5 text-black"
-                      placeholder="Country"
-                      options={options}
-                      value={shippingAddressData?.country}
-                      required
-                      onChange={(text) => {
-                        console.log(text);
-                        let c = { ...text };
-                        setShippingAddressData({
-                          ...shippingAddressData,
-                          country: text,
-                        });
-                      }}
-                    />
-                  </div>
-
-                  <div className="flex md:justify-start justify-center">
-                    <button
-                      className="bg-custom-gray w-full md:h-[50px] h-[40px] rounded-[5px] text-white font-normal text-base"
-                      type="submit"
-                    >
-                      {t("Place Order")}
-                    </button>
+                  <div className="flex justify-between font-semibold text-lg text-black border-t pt-3 mt-2">
+                    <span>Total</span>
+                    <span>
+                      {" "}
+                      {constant?.currency}
+                      {CartTotal}
+                    </span>
                   </div>
                 </div>
-              )}
 
-              {showPayment && (
-                <PayPalButtons
-                  createOrder={(data, actions) => {
-                    return actions.order.create({
-                      intent: "CAPTURE",
-                      purchase_units: [
-                        {
-                          amount: {
-                            value: CartTotal, // Set the transaction amount
-                          },
-                        },
-                      ],
-                      payer: {
-                        name: {
-                          given_name: shippingAddressData?.firstName,
-                          surname: shippingAddressData?.firstName,
-                        },
-                        phone: {
-                          phone_type: "MOBILE",
-                          phone_number: {
-                            national_number: shippingAddressData?.phoneNumber,
-                          },
-                        },
-                        address: {
-                          address_line_1: shippingAddressData?.address,
-                          address_line_2: shippingAddressData?.address,
-                          admin_area_1: shippingAddressData?.city,
-                          admin_area_2: shippingAddressData?.city,
-                          postal_code: shippingAddressData?.pinCode,
-                          country_code: shippingAddressData?.country?.value,
-                        },
-                        email_address: user?.email,
-                      },
+                <p className="text-xs text-gray-500 mt-4">
+                  Secure payment powered by PayPal
+                </p>
+              </div>
 
-                      application_context: {
-                        shipping_preference: "NO_SHIPPING", // 🚫 No shipping address
-                        user_action: "PAY_NOW", // Button shows "Pay Now" instead of "Continue"
-                      },
-                    });
-                  }}
-                  onApprove={(data, actions) => {
-                    return actions.order.capture().then((details) => {
-                      createProductRquest();
-                      // alert(`Transaction completed by ${details.payer.name.given_name}`);
-                    });
-                  }}
-                />
+              {shippingAddressData && (
+                <div className="mt-6">
+                  <PayPalButtons
+                    createOrder={(data, actions) => {
+                      return actions.order.create({
+                        intent: "CAPTURE",
+                        purchase_units: [
+                          {
+                            amount: {
+                              value: CartTotal,
+                            },
+                          },
+                        ],
+                        payer: {
+                          name: {
+                            given_name: shippingAddressData.firstName,
+                            surname: shippingAddressData.firstName,
+                          },
+                          phone: {
+                            phone_type: "MOBILE",
+                            phone_number: {
+                              national_number: shippingAddressData.phoneNumber,
+                            },
+                          },
+                          address: {
+                            address_line_1: shippingAddressData.address,
+                            admin_area_1: shippingAddressData.city,
+                            postal_code: shippingAddressData.pinCode,
+                            country_code: shippingAddressData.country?.value,
+                          },
+                          email_address: user?.email,
+                        },
+                        application_context: {
+                          shipping_preference: "NO_SHIPPING",
+                          user_action: "PAY_NOW",
+                        },
+                      });
+                    }}
+                    onApprove={(data, actions) => {
+                      return actions.order.capture().then(() => {
+                        createProductRquest();
+                      });
+                    }}
+                  />
+                </div>
               )}
-            </form>
+            </div>
+
+            {/* CLOSE */}
+            <button
+              onClick={() => setShowcart(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-black"
+            >
+              <RxCrossCircled className="w-7 h-7" />
+            </button>
           </div>
         </div>
       )}

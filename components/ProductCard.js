@@ -254,12 +254,12 @@ function ProductCard({ item, i, url, section, toaster }) {
                 onClick={() => handleAddToCart(item)}
                 className="px-4 mt-2 py-2 text-[14px] font-semibold rounded-[8px] border border-gray-300 hover:bg-gray-800 bg-black hover:text-white transition"
               >
-                ADD TO CART
+                {t("ADD TO CART")}
               </button>
             ) : (
-              <div className="flex justify-between items-center mt-2 border rounded-xl px-3 py-1">
+              <div className="flex justify-between items-center mt-2 border rounded-xl px-2 py-1">
                 <button
-                  className=" flex justify-center items-center"
+                  className=" flex justify-center items-centerp px-2"
                   onClick={() => handleDecreaseQty(selectedIndex)}
                 >
                   <IoRemoveSharp className="h-[15px] w-[15px] text-black" />
@@ -268,7 +268,7 @@ function ProductCard({ item, i, url, section, toaster }) {
                   {cartData[selectedIndex]?.qty}
                 </span>
                 <button
-                  className="flex justify-center items-center"
+                  className="flex justify-center items-center px-2"
                   onClick={() => handleIncreaseQty(selectedIndex)}
                 >
                   <IoAddSharp className="h-[15px] w-[15px] text-black" />
@@ -285,7 +285,7 @@ function ProductCard({ item, i, url, section, toaster }) {
             checked={cartCompareData.map((d) => d._id).includes(item._id)}
             onClick={() => handleCompareToggle(item)}
           />
-          <span className="text-sm text-black font-medium">Add to Compare</span>
+          <span className="text-sm text-black font-medium">{t("Add to Compare")}</span>
         </label>
       </div>
     </div>
