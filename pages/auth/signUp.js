@@ -66,7 +66,7 @@ function SignUp(props) {
     >
       <div className="flex w-full max-w-6xl shadow-2xl rounded-2xl overflow-hidden min-h-[600px]">
         {/* LEFT */}
-        <div className="relative flex flex-col bg-[#111111] p-8 flex-1">
+        <div className="relative hidden md:flex flex-col bg-[#111111] p-8 flex-1">
           <div className="bg-white inline-flex self-start px-3 py-1.5 rounded">
             <span className="font-black tracking-widest text-black">KRYT</span>
           </div>

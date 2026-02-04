@@ -418,11 +418,8 @@ function ProductDetail(props) {
     <div className="bg-white w-full z-40">
       <section className="bg-white w-full flex flex-col justify-center items-center">
         <div className="max-w-7xl mx-auto w-full md:px-0 px-5 md:pt-10 pt-5 md:pb-10 pb-5">
-          <div className="grid md:grid-cols-3 grid-cols-1 w-full md:gap-5">
-            <div className="w-full col-span-2">
-              <p className="text-custom-newBlacks md:text-2xl text-base font-semibold">
-                {productsId?.name}
-              </p>
+          <div className="grid md:grid-cols-2 grid-cols-1 w-full md:gap-5">
+            <div className="w-full col-span-1">
               {/* {productsId?.reviews?.length === 0 && (
                 <p className="text-custom-newBlackColor font-normal text-sm pt-5">
                   {t("No reviews yet")}
@@ -444,7 +441,6 @@ function ProductDetail(props) {
               )}
 
               <div className="w-full flex md:flex-row flex-col gap-5 mt-5">
-                {/* Thumbnails */}
                 <div className="md:w-[100px] w-full md:h-[500px] flex md:flex-col flex-row overflow-y-auto overflow-x-auto md:overflow-x-hidden">
                   {selectedImageList?.map((item, i) => (
                     <div key={i} className="shrink-0">
@@ -459,7 +455,7 @@ function ProductDetail(props) {
                 </div>
 
                 {/* Main Image */}
-                <div className="w-[400px] bg-custom-newLightGrayColors rounded-[20px] flex items-center justify-center">
+                <div className="md:w-[500px] bg-custom-newLightGrayColors rounded-[20px] flex items-center justify-center">
                   <img
                     className="w-full md:h-[500px] object-contain"
                     src={selectedImage}
@@ -505,98 +501,13 @@ function ProductDetail(props) {
                   </div>
                 </div>
               )}
-
-              <div className="pt-5">
-                <p className="text-custom-newBlacks text-xl	font-bold">
-                  {t("Ratings & Reviews")}
-                </p>
-
-                <div className="w-full">
-                  <div className="flex justify-start items-center gap-5 py-5">
-                    <p
-                      className={`text-custom-newBlacks font-normal text-base cursor-pointer ${reviews === "product" ? "underline underline-offset-8" : ""}`}
-                      onClick={() => {
-                        setReviews("product");
-                        setProductReviews(productsId?.reviews);
-                      }}
-                    >
-                      {t("Product reviews")}
-                    </p>
-                    <p
-                      className={`text-custom-newBlacks font-normal text-base cursor-pointer ${reviews === "product" ? "" : "underline underline-offset-8"}`}
-                      onClick={() => {
-                        setReviews("seller");
-                        setProductReviews(productsId?.sellerreviews);
-                      }}
-                    >
-                      {t("Seller reviews")}
-                    </p>
-                  </div>
-                  <p className="text-custom-blackColor font-bold	md:text-2xl text-base">
-                    {reviews === "product"
-                      ? productsId?.rating
-                      : productsId?.seller}{" "}
-                    <sapn className="text-custom-blackColor font-normal md:text-base  text-xs">
-                      /5
-                    </sapn>
-                  </p>
-
-                  {productReviews?.map((item, i) => (
-                    <div key={i} className="w-full">
-                      <div className="pt-5 flex justify-start items-center">
-                        <div className="w-[40px] h-[40px] bg-custom-newBlue rounded-full flex justify-center items-center">
-                          <p className="text-white text-xl font-bold">
-                            {item?.posted_by?.username?.charAt(0).toUpperCase()}
-                          </p>
-                        </div>
-                        <div className="ml-5">
-                          <div className="flex">
-                            <p className="text-custom-newBlacks font-normal text-xs">
-                              {item?.posted_by?.username}
-                            </p>
-                          </div>
-                          <p className="text-custom-grayColor font-normal text-xs">
-                            {moment(item?.createdAt).format("MMM DD, YYYY")}
-                          </p>
-                        </div>
-                      </div>
-
-                      <p className="text-custom-blackColor font-normal text-base	pt-5">
-                        {item?.description}
-                      </p>
-                      <div className="pt-5 flex gap-2">
-                        <Box
-                          sx={{
-                            width: 200,
-                            display: "flex",
-                            alignItems: "center",
-                          }}
-                        >
-                          <Rating
-                            name="text-feedback"
-                            value={item?.rating}
-                            readOnly
-                            precision={0.5}
-                            emptyIcon={
-                              <StarIcon
-                                style={{ opacity: 0.55 }}
-                                fontSize="inherit"
-                              />
-                            }
-                          />
-                          <Box className="text-black" sx={{ ml: 2 }}>
-                            {item?.rating}
-                          </Box>
-                        </Box>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
             </div>
 
             {productsId.category_type === "Products" && (
               <div className="bg-white rounded-[8px] pt-5 md:pb-5 md:px-5 md:h-[650px]">
+                <p className="text-custom-newBlacks md:text-3xl text-xl mb-2 font-semibold">
+                  {productsId?.name}
+                </p>
                 <div className="flex justify-between items-center md:pb-5 pb-3 border-b border-b-custom-newOffWhite">
                   <div>
                     <p className="text-custom-blackColor md:text-xl text-base font-bold">
@@ -1208,6 +1119,97 @@ function ProductDetail(props) {
               </div>
             )}
           </div>
+
+          <div className="pt-5">
+            <p className="text-custom-newBlacks text-xl font-bold">
+              {t("Ratings & Reviews")}
+            </p>
+
+            <div className="flex gap-6 py-5">
+              <p
+                className={`cursor-pointer ${
+                  reviews === "product"
+                    ? "font-semibold  text-black underline underline-offset-8"
+                    : "text-gray-500"
+                }`}
+                onClick={() => {
+                  setReviews("product");
+                  setProductReviews(productsId?.reviews);
+                }}
+              >
+                {t("Product reviews")}
+              </p>
+
+              <p
+                className={`cursor-pointer ${
+                  reviews === "seller"
+                    ? "font-semibold underline text-black underline-offset-8"
+                    : "text-gray-500"
+                }`}
+                onClick={() => {
+                  setReviews("seller");
+                  setProductReviews(productsId?.sellerreviews);
+                }}
+              >
+                {t("Seller reviews")}
+              </p>
+            </div>
+
+            {/* Average rating */}
+            <p className="text-custom-blackColor font-bold md:text-2xl text-base mb-6">
+              {Number(
+                reviews === "product" ? productsId?.rating : productsId?.seller,
+              ).toFixed(2)}
+              <span className="font-normal text-sm"> /5</span>
+            </p>
+
+            {/* ⭐ Reviews Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {productReviews?.map((item, i) => (
+                <div
+                  key={i}
+                  className="bg-white rounded-xl border border-gray-100 p-5 shadow-sm hover:shadow-md transition"
+                >
+                  {/* Header */}
+                  <div className="flex items-center gap-4">
+                    <div className="w-11 h-11 bg-custom-newBlue rounded-full flex items-center justify-center">
+                      <p className="text-white font-semibold text-lg">
+                        {item?.posted_by?.username?.charAt(0)?.toUpperCase()}
+                      </p>
+                    </div>
+
+                    <div>
+                      <p className="font-semibold text-sm text-custom-newBlacks">
+                        {item?.posted_by?.username}
+                      </p>
+                      <p className="text-xs text-gray-400">
+                        {moment(item?.createdAt).format("MMM DD, YYYY")}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Review text */}
+                  <p className="text-sm text-gray-700 mt-4 line-clamp-4">
+                    {item?.description}
+                  </p>
+
+                  {/* Rating */}
+                  <div className="flex items-center mt-4">
+                    <Rating
+                      value={item?.rating}
+                      readOnly
+                      precision={0.5}
+                      size="small"
+                    />
+                    <span className="ml-2 text-sm font-medium text-black">
+                      {Number(item?.rating).toFixed(1)}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
           {productList?.length > 0 && (
             <>
               <div className="bg-white w-full  mt-5">

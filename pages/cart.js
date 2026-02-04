@@ -45,6 +45,14 @@ function Cart(props) {
     city: "",
     country: {},
   });
+  const isShippingAddressComplete =
+    shippingAddressData.firstName &&
+    shippingAddressData.address &&
+    shippingAddressData.pinCode &&
+    shippingAddressData.phoneNumber &&
+    shippingAddressData.city &&
+    Object.keys(shippingAddressData.country || {}).length > 0;
+
   const [showPayment, setShowPayment] = useState(false);
   const [user, setUser] = useContext(userContext);
   const [clientSecret, setClientSecret] = useState("");
@@ -55,6 +63,10 @@ function Cart(props) {
 
   const options = useMemo(() => countryList().getData(), []);
 
+  useEffect(() => {
+    profile();
+  },[]);
+  
   useEffect(() => {
     let cart = localStorage.getItem("addCartDetail");
     if (cart) {
@@ -280,7 +292,7 @@ function Cart(props) {
         <div className="max-w-7xl mx-auto ">
           <div className="grid md:grid-cols-4 gap-6">
             <div className="md:col-span-3">
-              <div className="hidden md:grid grid-cols-4 bg-gray-50 rounded-xl py-4 mb-4 text-sm font-semibold text-gray-700 shadow-sm">
+              <div className=" grid grid-cols-4 bg-gray-50 rounded-xl py-4 mb-4 text-sm font-semibold text-gray-700 shadow-sm">
                 <p className="text-center">{t("Product")}</p>
                 <p className="text-center">{t("Price")}</p>
                 <p className="text-center">{t("Quantity")}</p>
@@ -498,20 +510,19 @@ function Cart(props) {
 
       {showcart && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center px-4">
-          <div className="relative w-full max-w-[900px] bg-white rounded-2xl shadow-2xl overflow-hidden grid md:grid-cols-2">
-            {/* LEFT : ADDRESS FORM */}
+          <div className="max-h-[700px] overflow-scroll relative w-full max-w-[900px] bg-white rounded-2xl shadow-2xl overflow-hidden grid md:grid-cols-2">
             <div className="p-6 md:p-8 border-r">
               <h2 className="text-2xl font-bold text-black mb-1">
-                Shipping Address
+                {t("Shipping Address")}
               </h2>
               <p className="text-sm text-gray-500 mb-6">
-                Fill the address to proceed with payment
+                {t("Fill the address to proceed with payment")}
               </p>
 
               <div className="space-y-4">
                 <input
-                  className="w-full h-[45px] px-4 rounded-xl border border-gray-300 focus:border-black outline-none"
-                  placeholder="First Name"
+                  className="w-full h-[45px] px-4 rounded-xl text-black border border-gray-300 focus:border-black outline-none"
+                  placeholder={t("First Name")}
                   value={shippingAddressData.firstName}
                   onChange={(e) =>
                     setShippingAddressData({
@@ -522,8 +533,8 @@ function Cart(props) {
                 />
 
                 <input
-                  className="w-full h-[45px] px-4 rounded-xl border border-gray-300 focus:border-black outline-none"
-                  placeholder="Address"
+                  className="w-full h-[45px] px-4 rounded-xl text-black border border-gray-300 focus:border-black outline-none"
+                  placeholder={t("Address")}
                   value={shippingAddressData.address}
                   onChange={(e) =>
                     setShippingAddressData({
@@ -535,8 +546,8 @@ function Cart(props) {
 
                 {/* <div className="grid grid-cols-2 gap-3"> */}
                 <input
-                  className="w-full h-[45px] px-4 rounded-xl border border-gray-300 focus:border-black outline-none"
-                  placeholder="Pin Code"
+                  className="w-full h-[45px] px-4 rounded-xl text-black border border-gray-300 focus:border-black outline-none"
+                  placeholder={t("Pin Code")}
                   value={shippingAddressData.pinCode}
                   onChange={(e) =>
                     setShippingAddressData({
@@ -546,8 +557,8 @@ function Cart(props) {
                   }
                 />
                 <input
-                  className="w-full h-[45px] px-4 rounded-xl border border-gray-300 focus:border-black outline-none"
-                  placeholder="City"
+                  className="w-full h-[45px] px-4 rounded-xl text-black border border-gray-300 focus:border-black outline-none"
+                  placeholder={t("City")}
                   value={shippingAddressData.city}
                   onChange={(e) =>
                     setShippingAddressData({
@@ -559,8 +570,8 @@ function Cart(props) {
                 {/* </div> */}
 
                 <input
-                  className="w-full h-[45px] px-4 rounded-xl border border-gray-300 focus:border-black outline-none"
-                  placeholder="Phone Number"
+                  className="w-full h-[45px] px-4 rounded-xl text-black border border-gray-300 focus:border-black outline-none"
+                  placeholder={t("Phone Number")}
                   value={shippingAddressData.phoneNumber}
                   onChange={(e) =>
                     setShippingAddressData({
@@ -571,7 +582,7 @@ function Cart(props) {
                 />
 
                 <Select
-                  placeholder="Country"
+                  placeholder={t("Country")}
                   options={options}
                   value={shippingAddressData.country}
                   onChange={(val) =>
@@ -580,6 +591,7 @@ function Cart(props) {
                       country: val,
                     })
                   }
+                  className="h-full"
                 />
               </div>
             </div>
@@ -587,12 +599,12 @@ function Cart(props) {
             <div className="p-6 md:p-8 bg-gray-50 flex flex-col justify-between">
               <div>
                 <h2 className="text-2xl font-bold text-black mb-4">
-                  Order Summary
+                  {t("Order Summary")}
                 </h2>
 
                 <div className="space-y-2 text-sm text-gray-700">
                   <div className="flex justify-between">
-                    <span>Subtotal</span>
+                    <span>{t("Subtotal")}</span>
                     <span>
                       {" "}
                       {constant?.currency}
@@ -600,11 +612,11 @@ function Cart(props) {
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span>Shipping</span>
-                    <span>Free</span>
+                    <span>{t("Shipping")}</span>
+                    <span>{t("Free")}</span>
                   </div>
                   <div className="flex justify-between font-semibold text-lg text-black border-t pt-3 mt-2">
-                    <span>Total</span>
+                    <span>{t("Total")}</span>
                     <span>
                       {" "}
                       {constant?.currency}
@@ -614,13 +626,14 @@ function Cart(props) {
                 </div>
 
                 <p className="text-xs text-gray-500 mt-4">
-                  Secure payment powered by PayPal
+                  Secure payment powered by PayPal. Please enter your address
+                  information to display the payment button.
                 </p>
               </div>
 
-              {shippingAddressData && (
+              {isShippingAddressComplete && (
                 <div className="mt-6">
-                  <PayPalButtons
+                  {/* <PayPalButtons
                     createOrder={(data, actions) => {
                       return actions.order.create({
                         intent: "CAPTURE",
@@ -661,7 +674,12 @@ function Cart(props) {
                         createProductRquest();
                       });
                     }}
-                  />
+                  /> */}
+
+                  <button className="text-black" onClick={createProductRquest}>
+                    {" "}
+                    Pay{" "}
+                  </button>
                 </div>
               )}
             </div>

@@ -23,15 +23,19 @@ function orders(props) {
   const [reviews, setReviews] = useState("product");
   const [sellerId, setSellerId] = useState("");
   const { t } = useTranslation();
+  const [expandedOrders, setExpandedOrders] = useState({});
+
   const [categoryType, setCategoryType] = useContext(categoryContext);
 
   useEffect(() => {
     getProductRequestbyUser();
   }, [categoryType]);
 
+  console.log(ordersData);
+
   const getProductRequestbyUser = async () => {
     props.loader(true);
-    Api("get", `getProductRequestbyUser?type=${categoryType}`, "", router).then(
+    Api("get", `getrequestProduct?type=${categoryType}`, "", router).then(
       (res) => {
         props.loader(false);
         console.log("res================>", res);
@@ -100,6 +104,12 @@ function orders(props) {
       .then(() => console.log("PDF downloaded/opened successfully"))
       .catch((err) => console.error("Failed to fetch PDF", err));
   };
+  const toggleOrderExpansion = (id) => {
+    setExpandedOrders((prev) => ({
+      ...prev,
+      [id]: !prev[id],
+    }));
+  };
 
   return (
     <div className="bg-white w-full">
@@ -118,80 +128,160 @@ function orders(props) {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 grid-cols-1 w-full gap-5">
-            {ordersData.map((item, i) => (
-              <div
-                key={i}
-                className="grid md:grid-cols-3 grid-cols-1 w-full gap-5 bg-white shadow-2xl p-5 rounded-[10px]"
-              >
-                <div className="col-span-2 flex gap-5">
-                  <img
-                    className="w-20 h-20 rounded-[10px] object-contain"
-                    src={item?.productDetail?.image[0]}
-                    onClick={() => {
-                      router.push(
-                        `/orders-details/${item?._id}?product_id=${item?.productDetail?._id}`,
-                      );
-                    }}
-                  />
-                  <div>
-                    <p className="text-black text-base font-bold">
-                      {item?.productDetail?.product?.name}
-                    </p>
-                    {item?.productDetail?.color && (
-                      <div className="flex justify-start items-center pt-[6px]">
-                        <p className="text-custom-gray text-xs font-bold">
-                          {t("Color")}:
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-6">
+            {ordersData.map((item) => {
+              const firstProduct = item.productDetail?.[0];
+              const hasMultiple = item.productDetail?.length > 1;
+
+              return (
+                <div
+                  key={item._id}
+                  className="bg-white border rounded-xl p-5 space-y-4 hover:shadow-lg transition"
+                >
+                  {/* TOP SECTION */}
+                  <div className="flex justify-between gap-5">
+                    <div className="flex gap-4">
+                      <img
+                        src={firstProduct?.image?.[0]}
+                        className="w-20 h-20 rounded-lg object-contain cursor-pointer border"
+                        onClick={() =>
+                          router.push(
+                            `/product-detail/${firstProduct?.product?.slug}`,
+                          )
+                        }
+                      />
+
+                      <div className="space-y-1">
+                        <p className="text-base font-semibold text-black">
+                          {firstProduct?.product?.name}
                         </p>
-                        <p
-                          className="h-[10px] w-[10px] rounded-full border border-black ml-2"
-                          style={{
-                            backgroundColor: item?.productDetail?.color,
-                          }}
-                        ></p>
+
+                        {firstProduct?.color && (
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs text-gray-500">
+                              {t("Color")}:
+                            </span>
+                            <span
+                              className="h-3 w-3 rounded-full border"
+                              style={{ backgroundColor: firstProduct.color }}
+                            />
+                          </div>
+                        )}
+
+                        <p className="text-xs text-gray-500">
+                          {t("Quantity")}: {firstProduct?.qty || 1}
+                        </p>
+
+                        <p className="text-xs text-gray-400">
+                          {t("Order ID")}: {item?.orderId || item?._id}
+                        </p>
+
+                        {hasMultiple && (
+                          <button
+                            onClick={() => toggleOrderExpansion(item._id)}
+                            className="text-xs underline text-black mt-1"
+                          >
+                            {expandedOrders[item._id]
+                              ? "Hide other items"
+                              : `+ ${item.productDetail.length - 1} more item(s)`}
+                          </button>
+                        )}
                       </div>
-                    )}
-                    {item?.category_type === "Products" && (
-                      <p className="text-custom-gray text-xs font-bold pt-[6px]">
-                        {t("Quantity")}: {item?.productDetail?.qty || 1}
-                      </p>
-                    )}
-                    {item?.rooms && (
-                      <p className="text-custom-gray text-xs font-bold pt-[6px]">
-                        {t("Rooms")}: {item?.rooms}
-                      </p>
-                    )}
-                    <p className="text-custom-gray text-xs font-bold pt-[6px]">
-                      {t("Order ID")}: {item?.orderId || item?._id}
-                    </p>
+                    </div>
+
+                    <div className="flex flex-col items-end justify-between">
+                      <div className="flex items-center gap-2">
+                        <p className="text-lg font-bold text-custom-red">
+                          {constant.currency}
+                          {firstProduct?.total || firstProduct?.price}
+                        </p>
+
+                        <MdFileDownload
+                          className="text-xl text-black cursor-pointer"
+                          onClick={() => GeneratePDF(item._id)}
+                        />
+                      </div>
+
+                      <div className="flex gap-2 mt-3">
+                        <button
+                          onClick={() => {
+                            setShowReviews(true);
+                            setProductId(firstProduct?.product?._id);
+                            setSellerId(firstProduct?.seller_id);
+                          }}
+                          className="px-4 h-8 bg-black text-white text-xs rounded-md hover:bg-gray-900"
+                        >
+                          {t("Review")}
+                        </button>
+
+                        <button
+                          onClick={() =>
+                            router.push(`/orders-details/${item?._id}`)
+                          }
+                          className="px-4 h-8 border text-xs rounded-md text-black hover:bg-gray-100"
+                        >
+                          {t("View Details")}
+                        </button>
+                      </div>
+                    </div>
                   </div>
+
+                  {/* EXPANDED OTHER PRODUCTS */}
+                  {hasMultiple &&
+                    expandedOrders[item._id] &&
+                    item.productDetail.slice(1).map((prod, idx) => (
+                      <div
+                        key={idx}
+                        className="flex justify-between gap-4 bg-gray-50 p-4 rounded-lg border"
+                      >
+                        <div className="flex gap-3">
+                          <img
+                            src={prod?.image?.[0]}
+                            className="w-16 h-16 rounded object-contain border cursor-pointer"
+                          />
+
+                          <div className="space-y-1">
+                            <p className="text-sm font-semibold text-black">
+                              {prod?.product?.name}
+                            </p>
+
+                            <p className="text-xs text-gray-500">
+                              Qty: {prod?.qty}
+                            </p>
+
+                            {prod?.attribute &&
+                              Object.entries(prod.attribute)
+                                .filter(([k]) => k.toLowerCase() !== "color")
+                                .map(([k, v]) => (
+                                  <p key={k} className="text-xs text-gray-500">
+                                    {k}: {v}
+                                  </p>
+                                ))}
+                          </div>
+                        </div>
+
+                        <div className="flex flex-col items-end justify-between">
+                          <p className="text-sm font-bold text-custom-red">
+                            {constant.currency}
+                            {prod?.price}
+                          </p>
+
+                          <button
+                            onClick={() => {
+                              setShowReviews(true);
+                              setProductId(prod?.product?._id);
+                              setSellerId(prod?.seller_id);
+                            }}
+                            className="px-4 h-8 border text-xs rounded-md text-black hover:bg-gray-100 mt-2"
+                          >
+                            {t("Review")}
+                          </button>
+                        </div>
+                      </div>
+                    ))}
                 </div>
-                <div className="flex flex-col">
-                  <div className="flex justify-end items-center gap-2">
-                    <p className="text-custom-red text-base font-bold text-right">
-                      {constant?.currency}
-                      {item?.productDetail?.total}
-                    </p>
-                    <MdFileDownload
-                      className="text-xl text-black"
-                      onClick={() => GeneratePDF(item._id)}
-                    />
-                  </div>
-                  <div className="flex justify-end items-end mt-2">
-                    <button
-                      className="bg-custom-newDarkBlack h-[30px] w-24 rounded-[5px] text-white font-semibold text-sm"
-                      onClick={() => {
-                        setShowReviews(true);
-                        setProductId(item?.productDetail?.product?._id);
-                        setSellerId(item?.productDetail?.seller_id);
-                      }}
-                    >
-                      {t("Reviews")}
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           {showReviews && (

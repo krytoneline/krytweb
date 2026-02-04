@@ -183,5 +183,7 @@
   "Shipping":"Shipping",
   "Free":"Free",
   "Order Summary":"Order Summary",
-  "No address added yet":"No address added yet"
+  "No address added yet":"No address added yet",
+  "Fill the address to proceed with payment":"Fill the address to proceed with payment",
+  "Customer Contact":"Customer Contact"
 }

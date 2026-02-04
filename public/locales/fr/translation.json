@@ -181,6 +181,9 @@
   "Shipping": "Livraison",
   "Free": "Gratuit",
   "Order Summary": "Récapitulatif de la commande",
-  "No address added yet": "Aucune adresse ajoutée pour le moment"
+  "No address added yet": "Aucune adresse ajoutée pour le moment",
+
+  "Fill the address to proceed with payment":"",
+  "Customer Contact":""
 
 }
