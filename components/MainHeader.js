@@ -10,7 +10,7 @@ function MainHeader({ carouselImg }) {
   };
 
   return (
-    <section className="w-full md:mt-1 mt-0">
+    <section className="w-full md:mt-2 mt-0">
       <div className="w-full h-full md:h-[60vh] bg-white">
         <Carousel
           responsive={responsive}

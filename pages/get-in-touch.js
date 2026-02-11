@@ -59,19 +59,21 @@ function GetInTouch(props) {
   return (
     <div className="min-h-[600px] bg-gray-50 p-4 md:py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto">
-       
         <div className="md:mb-8 mb-3">
           <p className="text-sm text-gray-600">
-            <span className="hover:text-gray-900 cursor-pointer" onClick={()=> router.push("/")}>{t("Home")}</span>
+            <span
+              className="hover:text-gray-900 cursor-pointer"
+              onClick={() => router.push("/")}
+            >
+              {t("Home")}
+            </span>
             <span className="mx-2">/</span>
             <span className="text-gray-900 font-medium">{t("Contact")}</span>
           </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-12 bg-white rounded-lg shadow-sm p-4 md:p-12">
-         
           <div className="space-y-8 col-span-1">
-            
             <div>
               <div className="flex items-center mb-4">
                 <div className="w-10 h-10 bg-black rounded-full flex items-center justify-center">
@@ -108,18 +110,24 @@ function GetInTouch(props) {
                 </h3>
               </div>
               <p className="text-sm text-gray-600 mb-2">
-                {t("Fill out our form and we will contact you within 24 hours.")}
+                {t(
+                  "Fill out our form and we will contact you within 24 hours.",
+                )}
               </p>
               <p className="text-sm text-gray-900 mb-2">
-                {t("Emails:")} customer@exclusive.com
+                {t("Emails:")}{" "}
+                <a
+                  href="mailto:customer@exclusive.com"
+                  className="text-blue-600 underline"
+                >
+                  customer@exclusive.com
+                </a>
               </p>
-             
             </div>
           </div>
 
           <div className="col-span-2">
             <form onSubmit={submit} className="space-y-4">
-           
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <input
                   type="text"

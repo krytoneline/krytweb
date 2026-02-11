@@ -167,7 +167,7 @@ function SignUp(props) {
                 className="absolute top-3 right-4 cursor-pointer"
                 onClick={() => setEyeIcon(!eyeIcon)}
               >
-                {eyeIcon ? <IoEyeOutline /> : <IoEyeOffOutline />}
+                {eyeIcon ? <IoEyeOutline className="text-black"/> : <IoEyeOffOutline className="text-black"/>}
               </div>
             </div>
 

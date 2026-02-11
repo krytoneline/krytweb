@@ -94,14 +94,11 @@ function Categories(props) {
   }, [categoryType]);
 
   const getCategory = async (cat) => {
-    // props.loader(true);
     Api("get", `getCategory?type=${categoryType}`, "", router).then(
       (res) => {
-        // props.loader(false);
         SetCategoryList([...res.data]);
       },
       (err) => {
-        // props.loader(false);
         console.log(err);
         props.toaster({ type: "error", message: err?.message });
       },
@@ -148,159 +145,144 @@ function Categories(props) {
   };
 
   return (
-    <div className="bg-white w-full">
-      <section className="bg-white max-w-7xl mx-auto w-full flex flex-col justify-center items-center">
-        <div className="md:px-0 mx-auto w-full z-30 px-5 md:pt-10 pt-5 md:pb-10 pb-5">
-          <div className="grid md:grid-cols-4 grid-cols-1 w-full md:gap-5">
-            <div className="bg-custom-lightGrayColors w-full px-5 py-5 h-[800px]">
-              <div className="border-b border-custom-newLightGra">
-                <div className="flex justify-between items-center w-full  pb-5">
-                  <p className="text-custom-darkBlack font-semibold text-lg">
-                    {t("Sort By")}
-                  </p>
-                  {!openData && (
-                    <FaCircleChevronDown
-                      className="text-lg text-custom-newDarkGray"
-                      onClick={() => {
-                        setOpenData(true);
-                      }}
-                    />
-                  )}
-                  {openData && (
-                    <FaCircleChevronUp
-                      className="text-lg text-custom-newDarkGray"
-                      onClick={() => setOpenData(false)}
-                    />
-                  )}
-                </div>
-                {openData && (
-                  <FormControl className="">
-                    <FormGroup className="flex flex-col">
-                      {sortByData.map((item, i) => (
-                        <FormControlLabel
-                          className="text-black"
-                          key={i}
-                          control={
-                            <Checkbox
-                              onChange={() => {
-                                if (selectedSortBy === item?.value) {
-                                  SetProductList([]);
-                                  setSelectedSortBy("");
-                                } else {
-                                  SetProductList([]);
-                                  setSelectedSortBy(item?.value);
-                                }
-                              }}
-                              checked={item?.value === selectedSortBy}
-                            />
-                          }
-                          label={item?.name}
-                        />
-                      ))}
-                    </FormGroup>
-                  </FormControl>
-                )}
+    <div className="bg-gray-50 min-h-screen">
+      <section className="max-w-7xl mx-auto px-4 md:px-5 py-6">
+        <div className="md:hidden mb-4">
+          <button
+            onClick={() => setOpenCategory(!openCategory)}
+            className="w-full bg-white text-black border rounded-lg py-3 font-medium shadow-sm"
+          >
+            Filters
+          </button>
+        </div>
+
+        <div className="flex flex-col md:flex-row gap-6">
+          <div
+            className={`${
+              openCategory ? "block" : "hidden"
+            } md:block w-full md:w-1/4 bg-white rounded-xl shadow-sm p-5 md:sticky md:top-20 h-fit`}
+          >
+            <div className="border-b pb-5 mb-5">
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="font-semibold text-lg text-gray-800">
+                  {t("Sort By")}
+                </h3>
+                <button onClick={() => setOpenData(!openData)}>
+                  {openData ? <FaCircleChevronUp className="text-black"/> : <FaCircleChevronDown className="text-black"/>}
+                </button>
               </div>
 
-              <div className="pt-5 h-[400px]">
-                <div className="flex justify-between items-center w-full  pb-5">
-                  <p className="text-custom-darkBlack font-semibold text-lg">
-                    {t("Categories")}
-                  </p>
-                  {!openCategory && (
-                    <FaCircleChevronDown
-                      className="text-lg text-custom-newDarkGray"
-                      onClick={() => {
-                        setOpenCategory(true);
-                      }}
-                    />
-                  )}
-                  {openCategory && (
-                    <FaCircleChevronUp
-                      className="text-lg text-custom-newDarkGray"
-                      onClick={() => setOpenCategory(false)}
-                    />
-                  )}
-                </div>
-
-                {openCategory && (
-                  <FormGroup>
+              {openData && (
+                <FormGroup>
+                  {sortByData.map((item, i) => (
                     <FormControlLabel
+                      key={i}
                       className="text-black"
                       control={
                         <Checkbox
+                          checked={item.value === selectedSortBy}
                           onChange={() => {
                             SetProductList([]);
-                            router.replace(`/categories/all`);
-                            setSelectedCategories("all");
+                            if (selectedSortBy === item.value) {
+                              setSelectedSortBy("");
+                            } else {
+                              setSelectedSortBy(item.value);
+                            }
                           }}
-                          checked={"all" === selectedCategories}
                         />
                       }
-                      label="All"
+                      label={item.name}
                     />
-
-                    {categoryList.map((item, i) => (
-                      <FormControlLabel
-                        className="text-black"
-                        key={i}
-                        control={
-                          <Checkbox
-                            onChange={() => {
-                              SetProductList([]);
-                              router.replace(`/categories/${item.slug}`);
-                              setSelectedCategories(item?.slug);
-                            }}
-                            checked={item.slug === selectedCategories}
-                          />
-                        }
-                        label={item?.name}
-                      />
-                    ))}
-                  </FormGroup>
-                )}
-              </div>
+                  ))}
+                </FormGroup>
+              )}
             </div>
 
-            <div className="col-span-3 !z-40">
-              <div className=" md:mt-0 mt-5">
-                {/* !z-20 */}
-                {/* <InfiniteScroll
-                                    dataLength={productList.length}
-                                    next={() => { getproductByCategory(router?.query?.cat_id, page) }}
-                                    hasMore={hasMore}
-                                > */}
-                <div className="grid md:grid-cols-3 gap-5 ">
-                  {/* !z-20 */}
-                  {productList.map((item, i) => (
-                    <div key={i} className="w-[290px] flex-shrink-0">
-                      <ProductCard
-                        {...props}
-                        item={item}
-                        i={i}
-                        url={`/product-detail/${item?.slug}?from=categories`}
-                      />
-                    </div>
-                  ))}
-                </div>
-                {/* </InfiniteScroll> */}
-
-                {productList?.length === 0 && (
-                  <div className="w-full md:h-[500px] h-[200px] flex justify-center items-center">
-                    <p className="text-2xl text-black font-normal text-center">
-                      {t("No Products")}
-                    </p>
-                  </div>
-                )}
+       
+            <div>
+              <div className="flex justify-between items-center mb-3">
+                <h3 className="font-semibold text-lg text-gray-800">
+                  {t("Categories")}
+                </h3>
+                <button onClick={() => setOpenCategory(!openCategory)}>
+                  {openCategory ? (
+                    <FaCircleChevronUp className="text-black"/>
+                  ) : (
+                    <FaCircleChevronDown className="text-black"/>
+                  )}
+                </button>
               </div>
+
+              {openCategory && (
+                <FormGroup>
+                  <FormControlLabel
+                    className="text-black"
+                    control={
+                      <Checkbox
+                        checked={"all" === selectedCategories}
+                        onChange={() => {
+                          SetProductList([]);
+                          router.replace(`/categories/all`);
+                          setSelectedCategories("all");
+                        }}
+                      />
+                    }
+                    label="All"
+                  />
+
+                  {categoryList.map((item, i) => (
+                    <FormControlLabel
+                      key={i}
+                      className="text-black"
+                      control={
+                        <Checkbox
+                          checked={item.slug === selectedCategories}
+                          onChange={() => {
+                            SetProductList([]);
+                            router.replace(`/categories/${item.slug}`);
+                            setSelectedCategories(item.slug);
+                          }}
+                        />
+                      }
+                      label={item.name}
+                    />
+                  ))}
+                </FormGroup>
+              )}
             </div>
           </div>
 
-          {/* <div className='pt-5 flex justify-end items-end'>
-                        <Stack spacing={2}>
-                            <Pagination count={10} shape="rounded" size="small" />
-                        </Stack>
-                    </div> */}
+          <div className="w-full md:w-3/4">
+          
+            <div className="bg-white rounded-xl shadow-sm p-4 mb-5 flex justify-between items-center">
+              <h2 className="text-lg md:text-xl font-semibold text-gray-800">
+                {productList.length} Products
+              </h2>
+            </div>
+
+            {/* Product Grid */}
+            {productList.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
+                {productList.map((item, i) => (
+                  <div
+                    key={i}
+                    className="bg-white rounded-xl shadow-sm hover:shadow-md transition"
+                  >
+                    <ProductCard
+                      {...props}
+                      item={item}
+                      i={i}
+                      url={`/product-detail/${item?.slug}?from=categories`}
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="h-[300px] flex justify-center items-center">
+                <p className="text-xl text-gray-600">{t("No Products")}</p>
+              </div>
+            )}
+          </div>
         </div>
       </section>
     </div>

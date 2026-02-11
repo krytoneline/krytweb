@@ -121,10 +121,10 @@ function orders(props) {
                 className="hover:text-gray-900 cursor-pointer"
                 onClick={() => router.push("/")}
               >
-                Home
+                {t("Home")}
               </span>
               <span className="mx-2">/</span>
-              <span className="text-gray-900 font-medium">Order</span>
+              <span className="text-gray-900 font-medium">{t("Order")}</span>
             </p>
           </div>
 
@@ -246,7 +246,7 @@ function orders(props) {
                             </p>
 
                             <p className="text-xs text-gray-500">
-                              Qty: {prod?.qty}
+                              {t("Qty")}: {prod?.qty}
                             </p>
 
                             {prod?.attribute &&
@@ -285,42 +285,52 @@ function orders(props) {
           </div>
 
           {showReviews && (
-            <div className="fixed top-0 left-0 w-screen h-screen bg-black/30 flex justify-center items-center z-50">
-              <div className="relative w-[300px] md:w-[360px] h-auto  bg-white rounded-[15px] m-auto">
-                <div
-                  className="absolute top-2 right-2 p-1 rounded-full  text-black w-8 h-8 cursor-pointer"
-                  onClick={() => {
-                    setShowReviews(false);
-                  }}
+            <div className="fixed inset-0 bg-black/40 backdrop-blur-sm flex justify-center items-center z-50 px-4">
+              {/* Modal Card */}
+              <div className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl border border-gray-100 animate-fadeIn">
+                {/* Close Button */}
+                <button
+                  className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 transition"
+                  onClick={() => setShowReviews(false)}
                 >
-                  <RxCrossCircled className="h-full w-full font-semibold " />
-                </div>
+                  <RxCrossCircled className="text-2xl text-gray-700" />
+                </button>
 
-                <form className="px-5 py-5" onSubmit={createProductRquest}>
-                  <p className="text-black font-bold text-2xl mb-5">
+                <form className="px-6 py-6" onSubmit={createProductRquest}>
+                  {/* Title */}
+                  <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">
                     {t("Reviews")}
-                  </p>
+                  </h2>
 
-                  <div className="flex justify-center items-center mb-5 gap-5">
+                  {/* Tabs */}
+                  <div className="flex justify-center bg-gray-100 rounded-lg p-1 mb-6">
                     <button
-                      className={`h-[30px] w-32 rounded-[5px] text-black font-semibold text-sm ${reviews === "product" ? "underline underline-offset-8" : ""} `}
-                      onClick={() => {
-                        setReviews("product");
-                      }}
+                      type="button"
+                      onClick={() => setReviews("product")}
+                      className={`w-1/2 py-2 rounded-md text-sm font-semibold transition ${
+                        reviews === "product"
+                          ? "bg-white shadow text-black"
+                          : "text-gray-500"
+                      }`}
                     >
                       {t("Product")}
                     </button>
+
                     <button
-                      className={`h-[30px] w-32 rounded-[5px] text-black font-semibold text-sm ${reviews === "product" ? "" : "underline underline-offset-8"}`}
-                      onClick={() => {
-                        setReviews("seller");
-                      }}
+                      type="button"
+                      onClick={() => setReviews("seller")}
+                      className={`w-1/2 py-2 rounded-md text-sm font-semibold transition ${
+                        reviews === "seller"
+                          ? "bg-white shadow text-black"
+                          : "text-gray-500"
+                      }`}
                     >
                       {t("Seller")}
                     </button>
                   </div>
 
-                  <div className="flex flex-col justify-center items-center  border border-custom-newGray rounded-[10px] py-3 mb-5">
+                  {/* Rating Box */}
+                  <div className="flex flex-col items-center border border-gray-200 rounded-xl py-4 mb-6 shadow-sm">
                     <Box
                       sx={{
                         width: 200,
@@ -332,51 +342,47 @@ function orders(props) {
                       <Rating
                         name="text-feedback"
                         value={reviewsData?.reviews}
-                        onChange={(e, value) => {
-                          console.log(e, value);
-                          setReviewsData({ ...reviewsData, reviews: value });
-                        }}
+                        onChange={(e, value) =>
+                          setReviewsData({ ...reviewsData, reviews: value })
+                        }
                         precision={0.5}
                         emptyIcon={
                           <StarIcon
-                            style={{ opacity: 0.55 }}
+                            style={{ opacity: 0.4 }}
                             fontSize="inherit"
                           />
                         }
                       />
-                      {/* <Box sx={{ ml: 2 }}>rating</Box> */}
                     </Box>
-                    <p className="text-black font-bold text-center text-base mt-2">
+
+                    <p className="text-gray-700 font-semibold mt-2">
                       {t("Rated")}{" "}
-                      {Number(reviewsData?.reviews || 0)?.toFixed(1)}
-                      {t("/5.0 by users")}
+                      {Number(reviewsData?.reviews || 0).toFixed(1)} {t("/5.0")}
                     </p>
                   </div>
 
-                  <div className="w-full">
-                    <textarea
-                      className="bg-white md:w-full w-full px-5 py-2 rounded-[10px] border border-custom-newGray font-normal  text-base text-black outline-none md:my-5 my-3"
-                      rows={4}
-                      placeholder={t("Description")}
-                      value={reviewsData.description}
-                      onChange={(e) => {
-                        setReviewsData({
-                          ...reviewsData,
-                          description: e.target.value,
-                        });
-                      }}
-                      required
-                    />
-                  </div>
+                  {/* Description */}
+                  <textarea
+                    className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-black outline-none text-gray-800 mb-6"
+                    rows={4}
+                    placeholder={t("Description")}
+                    value={reviewsData.description}
+                    onChange={(e) =>
+                      setReviewsData({
+                        ...reviewsData,
+                        description: e.target.value,
+                      })
+                    }
+                    required
+                  />
 
-                  <div className="flex md:justify-start justify-center">
-                    <button
-                      className="bg-custom-gray w-full md:h-[50px] h-[40px] rounded-[5px] text-white font-normal text-base"
-                      type="submit"
-                    >
-                      {t("Submit")}
-                    </button>
-                  </div>
+                  {/* Submit Button */}
+                  <button
+                    type="submit"
+                    className="w-full h-[48px] rounded-xl bg-black text-white font-semibold text-base shadow-md hover:shadow-lg transition"
+                  >
+                    {t("Submit")}
+                  </button>
                 </form>
               </div>
             </div>
@@ -394,7 +400,7 @@ function orders(props) {
 
               <p className="text-sm text-gray-500 text-center max-w-md">
                 {t(
-                  "You haven’t placed any orders yet. Once you do, they’ll appear here.",
+                  "You haven’t placed any orders yet. Once you do, they’ll appear here",
                 )}
               </p>
             </div>

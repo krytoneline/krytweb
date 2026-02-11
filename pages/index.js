@@ -111,7 +111,10 @@ export default function Home(props) {
           <p className="text-black font-bold text-[20px] md:text-3xl">
             {t("All Category")}
           </p>
-          <p className="text-black flex gap-1 text-sm md:text-lg underline">
+          <p className="text-black flex gap-1 text-sm md:text-lg  cursor-pointer underline"
+          onClick={()=> router.push("/categories/all")}
+          
+          >
             {t("Show More")}
             <MoveRight size={20} />
           </p>
@@ -131,7 +134,9 @@ export default function Home(props) {
             {t("Popular Products")}
           </p>
 
-          <p className="text-black flex gap-1 text-sm md:text-lg underline cursor-pointer">
+          <p className="text-black flex gap-1 text-sm md:text-lg underline cursor-pointer"
+          onClick={()=> router.push("/categories/all")}
+          >
             {t("Show More")}
             <MoveRight size={20} />
           </p>

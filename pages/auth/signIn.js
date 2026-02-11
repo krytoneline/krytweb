@@ -139,7 +139,7 @@ function SignIn(props) {
                   onClick={() => setShowPass(!showPass)}
                   className="absolute right-0 top-1/2 -translate-y-1/2 text-gray-400"
                 >
-                  {showPass ? <IoEyeOutline /> : <IoEyeOffOutline />}
+                  {showPass ? <IoEyeOutline className="text-black"/> : <IoEyeOffOutline className="text-black"/>}
                 </button>
               </div>
             </div>

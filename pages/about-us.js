@@ -1,61 +1,199 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import AboutUsContent from '@/components/AboutUsContent';
+import { Api } from "@/services/service";
+import Head from "next/head";
+import Image from "next/image";
+import { Shield, Users, Briefcase, Star, Clock, ShoppingCart } from "lucide-react";
 
-function AboutUs() {
-    const { t } = useTranslation();
+const services = [
+  {
+    title: "Buy Products",
+    description: "Shop from multiple sellers across various categories",
+  },
+  {
+    title: "Sell Online",
+    description: "List and manage your products with ease",
+  },
+  {
+    title: "Rent Equipment",
+    description: "Offer or find items for short-term rental",
+  },
+  {
+    title: "Service Enquiry",
+    description: "Connect with businesses for professional services",
+  },
+];
 
+const AboutUs = (props) => {
+  const { t } = useTranslation();
+  const router = useRouter();
 
-    return (
-        <div className="bg-white w-full">
-            <section className="bg-white w-full flex flex-col justify-center items-center">
-                <div className="md:px-10 mx-auto w-full  px-5 md:pt-10 pt-5 md:pb-10 pb-5">
-                    <p className='text-black text-2xl font-normal md:pb-5 pb-2'>{t("About us")}</p>
-                    <div>
-                        {/* <h2 className='text-black text-base font-bold md:pb-5 pb-2'>About Krytonline</h2> */}
+  const features = [
+    {
+      icon: Shield,
+      title: "All-in-One Marketplace",
+      description:
+        "Buy, sell, rent, and explore business services — everything you need in one powerful platform.",
+    },
+    {
+      icon: Users,
+      title: "Trusted Network",
+      description:
+        "Connect with verified sellers, renters, and professional service providers for secure and reliable transactions.",
+    },
+    {
+      icon: Briefcase,
+      title: "Business Growth & Enquiries",
+      description:
+        "Businesses can receive customer enquiries, generate leads, and expand their reach through Krytonline.",
+    },
+  ];
 
-                        <h3 className='text-black text-base font-normal md:pb-5 pb-2'>A Unified Marketplace for Buying, Selling, and Renting</h3>
-                        <p className='text-black text-base font-normal md:pb-5 pb-2'>Krytonline.com was founded with a vision to bridge the gap between small and medium-sized enterprises (SMEs) and individual entrepreneurs, providing them with a <strong>shared, dynamic online marketplace</strong>. Our platform is designed to cater to a wide range of needs by integrating <strong>multi-seller e-commerce and rental services</strong> into a single, seamless experience. With our core motto—<strong>BUY, SELL, RENT</strong>—we empower businesses and individuals to explore new opportunities, expand their reach, and engage in secure and hassle-free transactions.</p>
+  return (
+    <>
+      <Head>
+        <title>About Krytonline</title>
+        <meta
+          name="description"
+          content="Krytonline is a multi-seller marketplace where you can buy, sell, rent products and connect with businesses for service enquiries."
+        />
+        <link rel="canonical" href="https://www.krytonline.com/about-us" />
+      </Head>
 
-                        <h3 className='text-black text-base font-normal md:pb-5 pb-2'>A Platform Built Through Collaboration</h3>
-                        <p className='text-black text-base font-normal md:pb-5 pb-2'>The successful development of Krytonline has been made possible through the <strong>dedication, expertise, and financial contributions of our esteemed partners</strong>. Their unwavering support has helped shape this platform into a <strong>comprehensive and inclusive</strong> space where sellers, buyers, and renters can connect with ease.</p>
-                        <p className='text-black text-base font-normal md:pb-5 pb-2'>Our goal is not just to <strong>facilitate commerce</strong> but to <strong>revolutionize the online marketplace</strong> by offering a space where businesses of all sizes—whether startups, growing brands, or established enterprises—can <strong>thrive in a competitive digital economy</strong>.</p>
+      <div className="max-w-7xl mx-auto px-4 text-black bg-white">
 
-                        <h3 className='text-black text-base font-normal md:pb-5 pb-2'>A Global Vision with Local Franchise Opportunities</h3>
-                        <p className='text-black text-base font-normal md:pb-5 pb-2'>Krytonline is designed to serve a <strong>global audience</strong>, ensuring that businesses and individuals from different parts of the world have access to a <strong>trusted and scalable platform</strong> for their commercial and rental needs. Understanding the importance of local presence, we also offer <strong>franchise opportunities in selected countries</strong>, allowing franchisees to operate under the Krytonline brand while aligning with our <strong>shared vision and business philosophy</strong>.</p>
-                        <p className='text-black text-base font-normal md:pb-5 pb-2'>Our <strong>franchise model</strong> is structured to support entrepreneurs and investors who wish to <strong>bring Krytonline to their local markets</strong>, benefiting from our platform’s robust technology, established reputation, and global marketplace connections.</p>
+        {/* Hero Section */}
+        <div className="border border-black rounded-3xl my-20 relative">
+          <div className="flex flex-col lg:flex-row">
+            <div className="max-w-2xl p-8 lg:p-12 flex flex-col justify-center min-h-[420px]">
+              <h1 className="text-[26px] md:text-[32px] font-bold mb-4">
+                {t("Welcome to Krytonline – Buy, Sell, Rent & Grow Your Business")}
+              </h1>
 
-                        <h3 className='text-black text-base font-normal md:pb-5 pb-2'>Innovation and Expertise: The Strength of Our Team</h3>
-                        <p className='text-black text-base font-normal md:pb-5 pb-2'>At Krytonline, we believe that <strong>innovation and technology</strong> are at the heart of creating a <strong>successful and user-friendly platform</strong>. Our <strong>highly skilled team</strong>, comprising experts in <strong>technology, business strategy, and digital commerce</strong>, has worked relentlessly to combine their knowledge and creative insights in developing Krytonline.</p>
+              <p className="mb-6 text-[16px] leading-relaxed">
+                {t(
+                  "Krytonline is a unified digital marketplace where individuals and businesses can buy products, sell items, rent equipment, and explore professional services. Our platform connects customers with trusted sellers and service providers, offering a secure and seamless experience in one place."
+                )}
+              </p>
 
-                        <p className='text-black text-base font-normal md:pb-5 pb-2'>We have focused on <strong>cutting-edge digital solutions</strong>, ensuring that our platform provides:</p>
-                        <ul>
-                            <li className='text-black text-base font-normal md:pb-5 pb-2'><strong>A seamless user experience</strong> with intuitive navigation and smart search capabilities</li>
-                            <li className='text-black text-base font-normal md:pb-5 pb-2'><strong>Secure transactions</strong> with advanced payment gateway integrations</li>
-                            <li className='text-black text-base font-normal md:pb-5 pb-2'><strong>Comprehensive seller and renter tools</strong> to help businesses and individuals maximize their potential</li>
-                            <li className='text-black text-base font-normal md:pb-5 pb-2'><strong>A strong support system</strong> that fosters trust and reliability among users</li>
-                        </ul>
+              <button
+                className="border border-black bg-black hover:bg-white hover:text-black text-white transition px-6 py-3 rounded-lg w-fit flex items-center"
+                onClick={() => router.push("/categories/all")}
+              >
+                {t("Explore Marketplace")}
+                <ShoppingCart size={18} className="ml-2" />
+              </button>
+            </div>
+          </div>
 
-                        <h3 className='text-black text-base font-normal md:pb-5 pb-2'>Join Us in Shaping the Future of Online Commerce</h3>
-                        <p className='text-black text-base font-normal md:pb-5 pb-2'>Krytonline is more than just a marketplace—it is a <strong>community-driven platform</strong> that brings together businesses, entrepreneurs, and individuals in a way that fosters <strong>growth, collaboration, and success</strong>. Whether you are looking to <strong>buy, sell, or rent</strong>, Krytonline provides you with a <strong>trusted environment</strong> to do business efficiently and effectively.</p>
-
-                        <p className='text-black text-base font-normal md:pb-5 pb-2'>We invite you to be a part of our journey as we continue to expand, innovate, and redefine the way people <strong>engage in commerce and rentals</strong>.</p>
-
-                        <p className='text-black text-base font-normal'><strong>Krytonline – Buy, Sell, Rent with Confidence.</strong></p>
-                    </div>
-
-                    {/* <div className='w-full flex justify-center items-center'>
-                        <div className='flex flex-col justify-center items-center md:w-[50%]'>
-                            <p className='text-black text-base font-normal md:pb-5 pb-2'>{t("About us")}</p>
-                            <p className='text-base	text-black font-normal pb-5'>Krytonline.com started for SMEs and individual to be in same marketplace. We have combined multi-seller and rental in one place. Our motto says BUY,SELL,RENT.</p>
-                            <p className='text-base	text-black font-normal pb-5'>Together with our partners financial contribution, this website together has been made possible. Krytonline is aimed for global market and also allows franchisee for selected countries to operate with the same vision of our partners.</p>
-                            <p className='text-base	text-black font-normal'>Our Team successfully integrated intellectual and technological ideas to create Krytonline.</p>
-                        </div>
-                    </div> */}
-                </div>
-            </section>
+          <div className="absolute -top-10 right-10 lg:w-[500px] md:flex hidden">
+            <div className="relative w-full h-[380px]">
+              <Image
+                fill
+                src="/Store.png"
+                alt="Krytonline marketplace"
+                className="object-cover rounded-2xl"
+              />
+            </div>
+          </div>
         </div>
-    )
-}
 
-export default AboutUs
+        {/* Why Section */}
+        <div className="border border-black rounded-3xl px-6 py-12 text-center">
+          <h2 className="text-[28px] md:text-[36px] font-bold mb-3">
+            {t("Why Choose Krytonline")}
+          </h2>
+
+          <p className="text-[18px] mb-4">
+            {t("Bringing Commerce, Services & Convenience Together")}
+          </p>
+
+          <p className="text-[15px] max-w-3xl mx-auto">
+            {t(
+              "We combine quality products, reliable vendors, rental options, and professional service providers to deliver a complete marketplace experience."
+            )}
+          </p>
+        </div>
+
+        {/* Features */}
+        <div className="grid md:grid-cols-3 gap-6 mt-16 mb-16">
+          {features.map((feature, index) => (
+            <div
+              key={index}
+              className="border border-black rounded-2xl p-6 text-center hover:bg-black hover:text-white transition"
+            >
+              <feature.icon size={40} className="mx-auto mb-4" />
+              <h3 className="text-[18px] font-bold mb-3">
+                {t(feature.title)}
+              </h3>
+              <p className="text-[14px]">{t(feature.description)}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Business Section */}
+        <div className="border border-black rounded-3xl my-20 relative">
+          <div className="lg:max-w-2xl p-8 lg:p-12">
+            <h2 className="text-[28px] font-bold mb-6">
+              {t("Built for Customers and Businesses")}
+            </h2>
+
+            <p className="text-[15px] mb-6">
+              {t(
+                "Krytonline empowers entrepreneurs, SMEs, and individuals by providing tools to sell products, offer rentals, and receive business enquiries. Our platform helps businesses grow while giving customers easy access to products and services."
+              )}
+            </p>
+
+            <div className="flex gap-3 flex-wrap">
+              <div className="border border-black px-4 py-2 rounded-full text-sm flex items-center gap-2">
+                <Clock size={16} />
+                {t("Fast Response")}
+              </div>
+
+              <div className="border border-black px-4 py-2 rounded-full text-sm flex items-center gap-2">
+                <Star size={16} />
+                {t("Trusted by Businesses")}
+              </div>
+            </div>
+          </div>
+
+          <div className="absolute -top-10 right-10 lg:w-[450px] md:flex hidden">
+            <div className="relative w-full h-[320px]">
+              <Image
+                fill
+                src="/Rectangle25.png"
+                alt="Business services"
+                className="object-cover rounded-2xl"
+              />
+            </div>
+          </div>
+        </div>
+
+
+        <div className="mb-20">
+          <h2 className="text-center text-[30px] font-bold mb-12">
+            {t("Our Services")}
+          </h2>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {services.map((service, index) => (
+              <div
+                key={index}
+                className="border border-black rounded-2xl p-6 text-center hover:bg-black hover:text-white transition"
+              >
+                <h3 className="text-[18px] font-semibold mb-2">
+                  {t(service.title)}
+                </h3>
+                <p className="text-[14px]">{t(service.description)}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
+    </>
+  );
+};
+
+export default AboutUs;

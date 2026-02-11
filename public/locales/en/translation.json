@@ -185,5 +185,15 @@
   "Order Summary":"Order Summary",
   "No address added yet":"No address added yet",
   "Fill the address to proceed with payment":"Fill the address to proceed with payment",
-  "Customer Contact":"Customer Contact"
+  "Customer Contact":"Customer Contact",
+  "No Order Found":"No Order Found",
+  "You haven’t placed any orders yet. Once you do, they’ll appear here":"You haven’t placed any orders yet. Once you do, they’ll appear here",
+  "Order":"Order",
+  "Review":"Review",
+  "View Details":"View Details",
+
+  "No results found":"No results found",
+  "Try searching with different keywords":"Try searching with different keywords",
+  "Results for":"Results for",
+  "products found":"products found"
 }

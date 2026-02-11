@@ -259,14 +259,14 @@ const Navbar = (props) => {
                 </p>
               </div>
               {user?.token === undefined && (
-                <div className="flex flex-col justify-center items-center cursor-pointer">
+                <div
+                  className="flex flex-col justify-center items-center cursor-pointer"
+                  onClick={() => {
+                    router.push("/auth/signIn");
+                  }}
+                >
                   <UserRound className="text-gray-600" />
-                  <p
-                    className="text-[#00000080] text-sm font-normal cursor-pointer"
-                    onClick={() => {
-                      router.push("/auth/signIn");
-                    }}
-                  >
+                  <p className="text-[#00000080] text-sm font-normal cursor-pointer">
                     {t("Sign in")}
                   </p>
                 </div>
@@ -318,7 +318,6 @@ const Navbar = (props) => {
                             </li>
                           )}
 
-                  
                           <li className="hover:bg-white/10 transition">
                             <Link
                               href="/favourite"
@@ -417,54 +416,44 @@ const Navbar = (props) => {
         </div>
       </div>
 
-      {/* {!props.show && (
-        <div
-          className="bg-custom-lightBlue h-[44px] md:flex justify-center items-center hidden cursor-pointer"
-          onClick={() => {
-            router.push("/faq");
-          }}
-        >
-          <div className="md:px-10 mx-auto w-full flex gap-2 justify-center items-center">
-            <div className="flex items-center gap-2">
-              <div className="w-[24px] h-[24px] rounded-full bg-custom-blue flex justify-center items-center">
-                <IoLocation className="text-white h-4 w-4" />
-              </div>
-              <p className="text-black text-sm font-normal cursor-pointer">
-                {t("See FAQs if you have any kind of Questions and doubts.")}
-              </p>
-            </div>
-            <div className="flex justify-center items-center">
-              <p className="text-custom-blue text-sm font-normal">
-                {t("Learn more")}
-              </p>
-              <MdNavigateNext className="text-custom-blue w-[20px] h-[20px" />
-            </div>
+      <div className="md:hidden flex items-center justify-between px-4 py-3 bg-white ">
+
+        <img
+          className="w-[120px] h-[34px] object-contain cursor-pointer"
+          src="/icons/main-logo.png"
+          alt="logo"
+          onClick={() => router.push("/")}
+        />
+
+      
+        <div className="flex items-center gap-3">
+    
+          <div
+            className="h-9 w-9 flex items-center justify-center rounded-full border border-black/20 bg-white active:scale-95 transition"
+            ref={inputRef1}
+            onClick={() => {
+              setShowCategory1(true);
+              setTimeout(() => {
+                inputRef2.current.focus();
+              }, 200);
+            }}
+          >
+            <IoIosSearch className="w-6 h-6 text-black/70" />
+          </div>
+
+          <div className="border border-black/20 rounded-lg px-1 py-1 bg-white">
+            <select
+              className="bg-transparent text-xs font-medium text-black outline-none cursor-pointer"
+              value={lang}
+              onChange={(e) => handleClick(e.target.value)}
+            >
+              <option value="en">EN</option>
+              <option value="fr">FR</option>
+            </select>
           </div>
         </div>
-      )} */}
-
-      {/* mobile view */}
-      <div className="md:hidden flex flex-row justify-between items-center gap-5">
-        <img
-          className="w-[134px] h-[38px] cursor-pointer object-contain"
-          src="/icons/main-logo.png"
-          onClick={() => {
-            router.push("/");
-          }}
-        />
-        <div
-          className="border border-custom-darkRed rounded-sm h-[38px] w-[38px] flex justify-center items-center overflow-hidden"
-          ref={inputRef1}
-          onClick={() => {
-            setShowCategory1(true);
-            setTimeout(() => {
-              inputRef2.current.focus();
-            }, 200);
-          }}
-        >
-          <IoIosSearch className="w-5 h-5 text-[#00000060]" />
-        </div>
       </div>
+
       <Drawer open={showCategory1} anchor="top" onClose={closeDrawer1}>
         <div className="md:px-10 mx-auto w-full  relative">
           <div className="md:px-0 px-5 py-5 flex justify-start items-center gap-5">

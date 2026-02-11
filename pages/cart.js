@@ -633,7 +633,7 @@ function Cart(props) {
 
               {isShippingAddressComplete && (
                 <div className="mt-6">
-                  {/* <PayPalButtons
+                  <PayPalButtons
                     createOrder={(data, actions) => {
                       return actions.order.create({
                         intent: "CAPTURE",
@@ -674,12 +674,12 @@ function Cart(props) {
                         createProductRquest();
                       });
                     }}
-                  /> */}
+                  />
 
-                  <button className="text-black" onClick={createProductRquest}>
+                  {/* <button className="text-black" onClick={createProductRquest}>
                     {" "}
                     Pay{" "}
-                  </button>
+                  </button> */}
                 </div>
               )}
             </div>

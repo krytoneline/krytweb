@@ -183,7 +183,16 @@
   "Order Summary": "Récapitulatif de la commande",
   "No address added yet": "Aucune adresse ajoutée pour le moment",
 
-  "Fill the address to proceed with payment":"",
-  "Customer Contact":""
+  "Fill the address to proceed with payment": "Remplissez l'adresse pour procéder au paiement",
+  "Customer Contact": "Contact client",
+  "No Order Found": "Aucune commande trouvée",
+  "You haven’t placed any orders yet. Once you do, they’ll appear here": "Vous n'avez pas encore passé de commande. Une fois que vous en aurez passé, elles apparaîtront ici",
+  "Order": "Commande",
+  "Review": "Avis",
+  "View Details": "Voir les détails",
 
+  "No results found": "Aucun produit trouvé",
+  "Try searching with different keywords": "Essayez avec d'autres mots-clés",
+  "Results for": "Résultats pour",
+  "products found": "produits trouvés"
 }

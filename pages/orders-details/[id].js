@@ -4,7 +4,7 @@ import { Api } from "@/services/service";
 import { useTranslation } from "react-i18next";
 import moment from "moment";
 
-/* ---------- Reusable Card Component ---------- */
+
 const InfoCard = ({ title, children }) => (
   <div className="border border-gray-200 rounded-3xl p-8 bg-white shadow-sm hover:shadow-md transition-shadow duration-300 h-full">
     <h2 className="text-sm uppercase tracking-widest text-gray-500 font-bold mb-6 border-b border-gray-100 pb-4">
@@ -100,21 +100,30 @@ function OrdersDetails(props) {
 
   return (
     <div className="bg-[#FAFAFA] min-h-screen pb-20">
-      <section className="max-w-6xl mx-auto px-6 pt-12">
+      <section className="max-w-7xl mx-auto px-6 pt-12">
         {/* Header Section */}
-        <div className="mb-12 flex justify-between items-end">
+        <div className="mb-10 border  border-gray-200 rounded-2xl p-5 md:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 bg-white">
+          {/* Left Section */}
           <div>
-            <span className="text-xs font-bold text-blue-600 uppercase tracking-widest">
+            <p className="text-xs font-semibold text-gray-500 tracking-widest uppercase">
               Order #{orderData?.orderId}
-            </span>
-            <h1 className="md:text-4xl text-2xl font-black text-black mt-2 tracking-tight">
+            </p>
+
+            <h1 className="md:text-3xl text-2xl font-bold text-black mt-1">
               Order Details
             </h1>
           </div>
-          <p> Category type: </p>
-          <span className="bg-black text-white text-[10px] px-4 py-2 rounded-full font-bold uppercase tracking-widest mb-1">
-            {orderData?.category_type || "Order"}
-          </span>
+
+          {/* Right Section */}
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-gray-600 font-medium">
+              Category Type:
+            </span>
+
+            <span className="bg-black text-white text-xs px-4 py-2 rounded-full font-semibold uppercase tracking-wide">
+              {orderData?.category_type || "Order"}
+            </span>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

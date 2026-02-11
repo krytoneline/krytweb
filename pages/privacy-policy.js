@@ -29,9 +29,9 @@ function PrivacyPolicy(props) {
     };
 
     return (
-        <section className="bg-white w-full flex flex-col justify-center items-center">
-            <div className="md:px-10 mx-auto w-full   px-5 md:pt-10 pt-5 md:pb-10 pb-5 md:min-h-screen min-h-[400px]">
-                <p className='text-2xl text-black font-bold md:pb-5 pb-2'>{t("Privacy Policy")}</p>
+        <section className="bg-white max-w-7xl mx-auto flex flex-col justify-center items-center">
+            <div className="md:px-0  w-full  px-5 md:py-10 py-5 md:min-h-screen min-h-[400px]">
+                <p className='text-2xl md:text-4xl text-center text-black font-bold md:pb-5 pb-2'>{t("Privacy Policy")}</p>
                 <p className='text-base	text-black font-normal' dangerouslySetInnerHTML={{ __html: contentData }}></p>
             </div>
         </section>
