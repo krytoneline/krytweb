@@ -6,6 +6,7 @@ import { userContext } from "./_app";
 import { useRouter } from "next/router";
 import { MdOutlinePhoneAndroid } from "react-icons/md";
 import { useTranslation } from "react-i18next";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 function Profile(props) {
   const router = useRouter();
@@ -18,6 +19,10 @@ function Profile(props) {
     email: "",
     number: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const { t } = useTranslation();
@@ -152,15 +157,18 @@ function Profile(props) {
       <div className="min-h-screen bg-gray-50 px-4 py-8">
         {/* Breadcrumb */}
         <div className="max-w-7xl mx-auto mb-6">
-          <p className="text-sm text-gray-600">
-            Home / <span className="text-gray-900">Profile</span>
+          <p
+            className="text-sm text-gray-600 cursor-pointer"
+            onClick={() => router.push("/")}
+          >
+            {t("Home")} / <span className="text-gray-900">{t("Profile")}</span>
           </p>
         </div>
 
         {/* Main Content */}
         <div className="max-w-7xl mx-auto bg-white rounded-lg shadow-sm p-4 md:p-8">
           <h1 className="text-2xl font-semibold text-gray-900 mb-8">
-            Edit Your Profile
+            {t("Edit Your Profile")}
           </h1>
 
           {/* Profile Form */}
@@ -169,7 +177,7 @@ function Profile(props) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-900 mb-2">
-                  First Name
+                  {t("First Name")}
                 </label>
                 <input
                   className="w-full bg-gray-100 border-0 rounded px-4 py-3 text-gray-900 placeholder-gray-500 outline-none focus:ring-0"
@@ -188,7 +196,7 @@ function Profile(props) {
 
               <div>
                 <label className="block text-sm font-medium text-gray-900 mb-2">
-                  Phone Number
+                  {t("Phone Number")}
                 </label>
                 <input
                   className="w-full bg-gray-100 border-0 rounded px-4 py-3 text-gray-900 placeholder-gray-500 outline-none focus:ring-0"
@@ -210,7 +218,7 @@ function Profile(props) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-900 mb-2">
-                  Email
+                  {t("Email")}
                 </label>
                 <input
                   className="w-full bg-gray-100 border-0 rounded px-4 py-3 text-gray-900 placeholder-gray-500 outline-none focus:ring-0"
@@ -242,42 +250,66 @@ function Profile(props) {
             {/* Password Changes Section */}
             <div className="pt-6">
               <h2 className="text-base font-medium text-gray-900 mb-4">
-                Password Changes
+                {t("Password Changes")}
               </h2>
 
               <div className="space-y-4">
-                <div>
+                {/* New Password */}
+                <div className="relative">
                   <input
-                    type="password"
-                    placeholder="New Passwod"
-                    className="w-full bg-gray-100 border-0 rounded px-4 py-3 text-gray-900 placeholder-gray-500 outline-none focus:ring-0"
+                    type={showPassword ? "text" : "password"}
+                    placeholder={t("New Password")}
+                    className="w-full bg-gray-100 border-0 rounded px-4 py-3 pr-10 text-gray-900 placeholder-gray-500 outline-none focus:ring-0"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />
+
+                  <div
+                    className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <AiFillEyeInvisible size={20} />
+                    ) : (
+                      <AiFillEye size={20} />
+                    )}
+                  </div>
                 </div>
 
-                <div>
+                {/* Confirm Password */}
+                <div className="relative">
                   <input
-                    type="password"
-                    placeholder="Confirm New Passwod"
-                    className="w-full bg-gray-100 border-0 rounded px-4 py-3 text-gray-900 placeholder-gray-500 outline-none focus:ring-0"
+                    type={showConfirmPassword ? "text" : "password"}
+                    placeholder={t("Confirm New Password")}
+                    className="w-full bg-gray-100 border-0 rounded px-4 py-3 pr-10 text-gray-900 placeholder-gray-500 outline-none focus:ring-0"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                   />
+
+                  <div
+                    className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer text-gray-600"
+                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  >
+                    {showConfirmPassword ? (
+                      <AiFillEyeInvisible size={20} />
+                    ) : (
+                      <AiFillEye size={20} />
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
 
             <div className="w-full flex flex-row items-center gap-4 pt-4 justify-end">
               <button className="border-2 border-gray-400 rounded-xl px-6 py-3 text-gray-900 hover:text-gray-700 transition">
-                Cancel
+                {t("Cancel")}
               </button>
 
               <button
                 onClick={submit}
                 className="px-8 py-3 bg-black text-white rounded-xl hover:bg-gray-700 transition"
               >
-                Save 
+                {t("Save")}
               </button>
             </div>
           </div>

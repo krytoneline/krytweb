@@ -65,8 +65,8 @@ function Cart(props) {
 
   useEffect(() => {
     profile();
-  },[]);
-  
+  }, []);
+
   useEffect(() => {
     let cart = localStorage.getItem("addCartDetail");
     if (cart) {
@@ -292,7 +292,8 @@ function Cart(props) {
         <div className="max-w-7xl mx-auto ">
           <div className="grid md:grid-cols-4 gap-6">
             <div className="md:col-span-3">
-              <div className=" grid grid-cols-4 bg-gray-50 rounded-xl py-4 mb-4 text-sm font-semibold text-gray-700 shadow-sm">
+              {/* Desktop Header */}
+              <div className="hidden md:grid grid-cols-4 bg-gray-50 rounded-xl py-4 mb-4 text-sm font-semibold text-gray-700 shadow-sm">
                 <p className="text-center">{t("Product")}</p>
                 <p className="text-center">{t("Price")}</p>
                 <p className="text-center">{t("Quantity")}</p>
@@ -300,33 +301,141 @@ function Cart(props) {
               </div>
 
               {cartData.map((item, i) => (
-                <div
-                  key={i}
-                  className="grid grid-cols-4 gap-2 items-center bg-white rounded-xl shadow-sm p-4 mb-4"
-                >
-                  <div className="flex items-center gap-2">
+                <div key={i} className="bg-white rounded-xl shadow-sm p-4 mb-4">
+                  {/* MOBILE VIEW */}
+                  <div className="md:hidden flex gap-3">
+                    {/* Image */}
                     <img
                       src={item?.varients?.[0]?.image}
                       className="w-20 h-20 object-contain rounded-lg border"
                     />
-                    <p className="text-sm font-medium text-gray-800 line-clamp-2">
-                      {item?.name}
-                    </p>
+
+                
+                    <div className="flex-1">
+                      <p className="text-sm font-medium text-gray-800 line-clamp-2 mb-1">
+                        {item?.name}
+                      </p>
+
+                      <p className="text-sm text-gray-600">
+                        {t("Price")}: {constant?.currency}
+                        {item?.price}
+                      </p>
+
+                      {/* Quantity */}
+                      <div className="flex items-center justify-between mt-2">
+                        <div className="flex items-center border rounded-full overflow-hidden">
+                          <button
+                            className="px-3 py-1.5 bg-gray-100"
+                            onClick={() => {
+                              if (item.qty > 1) {
+                                const nextState = produce(cartData, (draft) => {
+                                  draft[i].qty -= 1;
+                                  draft[i].total = (
+                                    draft[i].price * draft[i].qty
+                                  ).toFixed(2);
+                                });
+                                setCartData(nextState);
+                                localStorage.setItem(
+                                  "addCartDetail",
+                                  JSON.stringify(nextState),
+                                );
+                              }
+                            }}
+                          >
+                            <IoRemoveSharp className="text-black"/>
+                          </button>
+
+                          <span className="px-4 text-sm font-medium text-black">
+                            {item?.qty}
+                          </span>
+
+                          <button
+                            className="px-3 py-1.5 bg-gray-100"
+                            onClick={() => {
+                              const nextState = produce(cartData, (draft) => {
+                                draft[i].qty += 1;
+                                draft[i].total = (
+                                  draft[i].price * draft[i].qty
+                                ).toFixed(2);
+                              });
+                              setCartData(nextState);
+                              localStorage.setItem(
+                                "addCartDetail",
+                                JSON.stringify(nextState),
+                              );
+                            }}
+                          >
+                            <IoAddSharp className="text-black"/>
+                          </button>
+                        </div>
+
+                        {/* Delete */}
+                        <AiFillDelete
+                          className="text-red-500 cursor-pointer text-xl"
+                          onClick={() => cartClose(item, i)}
+                        />
+                      </div>
+
+                     
+                      <p className="mt-2 font-semibold text-gray-800">
+                        {t("Subtotal")}: {constant?.currency}
+                        {Number(item.total).toFixed(2)}
+                      </p>
+                    </div>
                   </div>
 
-                  <p className="text-center text-gray-600 font-medium">
-                    {constant?.currency}
-                    {item?.price}
-                  </p>
+                  {/* DESKTOP VIEW */}
+                  <div className="hidden md:grid grid-cols-4 gap-2 items-center">
+                    {/* Product */}
+                    <div className="flex items-center gap-2">
+                      <img
+                        src={item?.varients?.[0]?.image}
+                        className="w-20 h-20 object-contain rounded-lg border"
+                      />
+                      <p className="text-sm font-medium text-gray-800 line-clamp-2">
+                        {item?.name}
+                      </p>
+                    </div>
 
-                  <div className="flex justify-center">
-                    <div className="flex items-center border rounded-full overflow-hidden">
-                      <button
-                        className="px-3 py-1.5 text-black bg-gray-100 hover:bg-gray-200"
-                        onClick={() => {
-                          if (item.qty > 1) {
+                    {/* Price */}
+                    <p className="text-center text-gray-600 font-medium">
+                      {constant?.currency}
+                      {item?.price}
+                    </p>
+
+                    {/* Quantity */}
+                    <div className="flex justify-center">
+                      <div className="flex items-center border rounded-full overflow-hidden">
+                        <button
+                          className="px-3 py-1.5 bg-gray-100"
+                          onClick={() => {
+                            if (item.qty > 1) {
+                              const nextState = produce(cartData, (draft) => {
+                                draft[i].qty -= 1;
+                                draft[i].total = (
+                                  draft[i].price * draft[i].qty
+                                ).toFixed(2);
+                              });
+                              setCartData(nextState);
+                              localStorage.setItem(
+                                "addCartDetail",
+                                JSON.stringify(nextState),
+                              );
+                            }
+                          }}
+                        >
+                          <IoRemoveSharp className="text-black"/>
+                        </button>
+
+                        <span className="px-4 text-sm font-medium text-black">
+                          {item?.qty}
+                        </span>
+
+                        <button
+                          className="px-3 py-1.5 bg-gray-100"
+                          onClick={() => {
                             const nextState = produce(cartData, (draft) => {
-                              draft[i].qty -= 1;
+                              draft[i].qty += 1;
                               draft[i].total = (
                                 draft[i].price * draft[i].qty
                               ).toFixed(2);
@@ -336,46 +445,24 @@ function Cart(props) {
                               "addCartDetail",
                               JSON.stringify(nextState),
                             );
-                          }
-                        }}
-                      >
-                        <IoRemoveSharp />
-                      </button>
-
-                      <span className="px-4 text-sm font-medium text-black">
-                        {item?.qty}
-                      </span>
-
-                      <button
-                        className="px-3 py-1.5 bg-gray-100 text-black hover:bg-gray-200"
-                        onClick={() => {
-                          const nextState = produce(cartData, (draft) => {
-                            draft[i].qty += 1;
-                            draft[i].total = (
-                              draft[i].price * draft[i].qty
-                            ).toFixed(2);
-                          });
-                          setCartData(nextState);
-                          localStorage.setItem(
-                            "addCartDetail",
-                            JSON.stringify(nextState),
-                          );
-                        }}
-                      >
-                        <IoAddSharp />
-                      </button>
+                          }}
+                        >
+                          <IoAddSharp className="text-black"/>
+                        </button>
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="flex items-center justify-center gap-4">
-                    <p className="font-semibold text-gray-800">
-                      {constant?.currency}
-                      {Number(item.total).toFixed(2)}
-                    </p>
-                    <AiFillDelete
-                      className="text-red-500 cursor-pointer text-xl"
-                      onClick={() => cartClose(item, i)}
-                    />
+                    {/* Subtotal + Delete */}
+                    <div className="flex items-center justify-center gap-3 whitespace-nowrap">
+                      <p className="font-semibold text-gray-800">
+                        {constant?.currency}
+                        {Number(item.total).toFixed(2)}
+                      </p>
+                      <AiFillDelete
+                        className="text-red-500 cursor-pointer text-xl"
+                        onClick={() => cartClose(item, i)}
+                      />
+                    </div>
                   </div>
                 </div>
               ))}

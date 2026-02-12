@@ -313,7 +313,7 @@ const Navbar = (props) => {
                                 className="flex items-center gap-3 px-5 py-3 text-white font-medium"
                               >
                                 <ShoppingBag size={18} />
-                                <span>{t("My Store")}</span>
+                                <span>{t("Dashboard")}</span>
                               </Link>
                             </li>
                           )}

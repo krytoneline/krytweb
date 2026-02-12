@@ -194,5 +194,14 @@
   "No results found": "Aucun produit trouvé",
   "Try searching with different keywords": "Essayez avec d'autres mots-clés",
   "Results for": "Résultats pour",
-  "products found": "produits trouvés"
+  "products found": "produits trouvés",
+ 
+  "Edit Your Profile": "Modifier votre profil",
+  "Password Changes": "Modification du mot de passe",
+  "New Passwod": "Nouveau mot de passe",
+  "Confirm New Passwod": "Confirmer le nouveau mot de passe",
+  "Cancel": "Annuler",
+  "Save": "Enregistrer",
+  "Dashboard":""
+
 }
