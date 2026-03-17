@@ -3,9 +3,6 @@ import axios from "axios";
 
 export const ConstantsUrl = "https://apis.krytonline.com/v1/api/";
 
-// export const ConstantsUrl = "http://localhost:3003/v1/api/";
-
-// "https://sp-app-api.herokuapp.com"
 
 function Api(method, url, data, router, params) {
   return new Promise(function (resolve, reject) {
