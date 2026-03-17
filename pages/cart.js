@@ -29,6 +29,7 @@ import { BsCart4 } from "react-icons/bs";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 import Select from "react-select";
 import countryList from "react-select-country-list";
+import { Weight } from "lucide-react";
 
 function Cart(props) {
   const router = useRouter();
@@ -45,6 +46,7 @@ function Cart(props) {
     city: "",
     country: {},
   });
+
   const isShippingAddressComplete =
     shippingAddressData.firstName &&
     shippingAddressData.address &&
@@ -165,55 +167,75 @@ function Cart(props) {
   };
 
   const createProductRquest = () => {
-    // e.preventDefault();
-    // if (cartData?.length === 0) {
-    //     props.toaster({ type: "warning", message: 'Your cart is empty' });
-    //     return
-    // }
     let data = [];
     let cart = localStorage.getItem("addCartDetail");
     let address = localStorage.getItem("shippingAddressData");
+
     let d = JSON.parse(cart);
+
+    let totalWeight = 0; 
     d.forEach((element) => {
+      const weight = Number(element?.weight || 0);
+      const qty = Number(element?.qty || 0);
+
+      totalWeight += weight * qty; 
+
       data.push({
         product: element?._id,
         image: element?.selectedColor?.image || element?.image,
         color: element.selectedColor?.color,
         total: element.total,
         price: element.price,
-        qty: element.qty,
+        Weight: weight,
+        qty: qty,
         seller_id: element.userid,
       });
     });
+
     let newData = {
       productDetail: data,
       total: CartTotal.toFixed(2),
       shiping_address: shippingAddressData,
       category_type: "Products",
-      // JSON.parse(address)
+      totalWeight: totalWeight, 
     };
 
-    console.log(data);
+    console.log("Total Weight:", totalWeight);
     console.log(newData);
+
     props.loader(true);
+
     Api("post", "createProductRquest", newData, router).then(
       (res) => {
         props.loader(false);
         console.log("res================>", res);
+
         if (res.status) {
           setCartData([]);
           setCartTotal(0);
           localStorage.removeItem("addCartDetail");
-          props.toaster({ type: "success", message: res.data?.message });
+
+          props.toaster({
+            type: "success",
+            message: res.data?.message,
+          });
+
           router.push("/orders");
         } else {
-          props.toaster({ type: "error", message: res?.data?.message });
+          props.toaster({
+            type: "error",
+            message: res?.data?.message,
+          });
         }
       },
       (err) => {
         props.loader(false);
         console.log(err);
-        props.toaster({ type: "error", message: err?.message });
+
+        props.toaster({
+          type: "error",
+          message: err?.message,
+        });
       },
     );
   };
@@ -310,7 +332,6 @@ function Cart(props) {
                       className="w-20 h-20 object-contain rounded-lg border"
                     />
 
-                
                     <div className="flex-1">
                       <p className="text-sm font-medium text-gray-800 line-clamp-2 mb-1">
                         {item?.name}
@@ -342,7 +363,7 @@ function Cart(props) {
                               }
                             }}
                           >
-                            <IoRemoveSharp className="text-black"/>
+                            <IoRemoveSharp className="text-black" />
                           </button>
 
                           <span className="px-4 text-sm font-medium text-black">
@@ -365,7 +386,7 @@ function Cart(props) {
                               );
                             }}
                           >
-                            <IoAddSharp className="text-black"/>
+                            <IoAddSharp className="text-black" />
                           </button>
                         </div>
 
@@ -376,7 +397,6 @@ function Cart(props) {
                         />
                       </div>
 
-                     
                       <p className="mt-2 font-semibold text-gray-800">
                         {t("Subtotal")}: {constant?.currency}
                         {Number(item.total).toFixed(2)}
@@ -424,7 +444,7 @@ function Cart(props) {
                             }
                           }}
                         >
-                          <IoRemoveSharp className="text-black"/>
+                          <IoRemoveSharp className="text-black" />
                         </button>
 
                         <span className="px-4 text-sm font-medium text-black">
@@ -447,7 +467,7 @@ function Cart(props) {
                             );
                           }}
                         >
-                          <IoAddSharp className="text-black"/>
+                          <IoAddSharp className="text-black" />
                         </button>
                       </div>
                     </div>
