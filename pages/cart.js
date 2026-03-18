@@ -173,12 +173,12 @@ function Cart(props) {
 
     let d = JSON.parse(cart);
 
-    let totalWeight = 0; 
+    let totalWeight = 0;
     d.forEach((element) => {
       const weight = Number(element?.weight || 0);
       const qty = Number(element?.qty || 0);
 
-      totalWeight += weight * qty; 
+      totalWeight += weight * qty;
 
       data.push({
         product: element?._id,
@@ -197,11 +197,12 @@ function Cart(props) {
       total: CartTotal.toFixed(2),
       shiping_address: shippingAddressData,
       category_type: "Products",
-      totalWeight: totalWeight, 
+      totalWeight: totalWeight,
+      paymentStatus: "Success",
+      paymentMode: "Paypal",
+      transactionId: "",
+      paymentId: "",
     };
-
-    console.log("Total Weight:", totalWeight);
-    console.log(newData);
 
     props.loader(true);
 
@@ -747,7 +748,7 @@ function Cart(props) {
                         purchase_units: [
                           {
                             amount: {
-                              value: CartTotal,
+                              value: CartTotal.toString(), // ✅ always string
                             },
                           },
                         ],
@@ -766,7 +767,8 @@ function Cart(props) {
                             address_line_1: shippingAddressData.address,
                             admin_area_1: shippingAddressData.city,
                             postal_code: shippingAddressData.pinCode,
-                            country_code: shippingAddressData.country?.value,
+                            country_code:
+                              shippingAddressData.country?.value || "IN",
                           },
                           email_address: user?.email,
                         },
@@ -776,9 +778,38 @@ function Cart(props) {
                         },
                       });
                     }}
+                    // ✅ Payment Success
                     onApprove={(data, actions) => {
-                      return actions.order.capture().then(() => {
-                        createProductRquest();
+                      return actions.order.capture().then((details) => {
+                     
+                        if (!details || !details.id) {
+                          props.toaster({
+                            type: "error",
+                            message: "Payment verification failed",
+                          });
+                          return;
+                        }
+
+                        createProductRquest({
+                          transactionId: details.id,
+                          paymentId: details.payer?.payer_id,
+                        });
+                      });
+                    }}
+                    // ❌ Payment Failed
+                    onError={(err) => {
+                      console.log("❌ PayPal Error:", err);
+
+                      props.toaster({
+                        type: "error",
+                        message: "Payment failed, please try again",
+                      });
+                    }}
+                    // ❌ User Cancel
+                    onCancel={() => {
+                      props.toaster({
+                        type: "warning",
+                        message: "Payment cancelled",
                       });
                     }}
                   />

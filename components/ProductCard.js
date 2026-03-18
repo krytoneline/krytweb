@@ -252,7 +252,7 @@ function ProductCard({ item, i, url, section, toaster }) {
             {selectedIndex === -1 ? (
               <button
                 onClick={() => handleAddToCart(item)}
-                className="px-4 mt-2 py-2 text-[14px] font-semibold rounded-[8px] border border-gray-300 hover:bg-gray-800 bg-black hover:text-white transition"
+                className="px-4 mt-2 py-2 text-[14px] font-semibold rounded-[8px] border border-gray-300 hover:bg-gray-800 bg-black hover:text-white text-white transition"
               >
                 {t("ADD TO CART")}
               </button>
