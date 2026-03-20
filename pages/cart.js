@@ -5,38 +5,25 @@ import { useRouter } from "next/router";
 import { RxCrossCircled } from "react-icons/rx";
 import { useContext } from "react";
 import { cartContext, userContext } from "./_app";
-import Swal from "sweetalert2";
 import { produce } from "immer";
-// import {
-//     Elements,
-//     useElements,
-//     useStripe,
-//     ElementProps,
-//     PaymentElement,
-//     Ele,
-// } from "@stripe/react-stripe-js";
-// import { loadStripe } from "@stripe/stripe-js";
-// import CheckoutForm from '@/components/Checkout/stripe';
-// const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_API_KEY);
+
 import { useTranslation } from "react-i18next";
 import constant from "@/services/constant";
 import ConfirmationModal from "@/components/ConfirmationModel";
 import { IoRemoveSharp } from "react-icons/io5";
 import { IoAddSharp } from "react-icons/io5";
 import { BsCart4 } from "react-icons/bs";
-// import PayPalCheckout from '@/components/PayPalCheckout';
 
-import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
+import { PayPalButtons } from "@paypal/react-paypal-js";
 import Select from "react-select";
 import countryList from "react-select-country-list";
-import { Weight } from "lucide-react";
 
 function Cart(props) {
   const router = useRouter();
   const [cartData, setCartData] = useContext(cartContext);
   const [CartTotal, setCartTotal] = useState(0);
-  const [CartItem, setCartItem] = useState(0);
   const [showcart, setShowcart] = useState(false);
+  const [errors, setErrors] = useState({});
 
   const [shippingAddressData, setShippingAddressData] = useState({
     firstName: "",
@@ -47,13 +34,48 @@ function Cart(props) {
     country: {},
   });
 
+  const validateForm = () => {
+    let newErrors = {};
+
+    if (!shippingAddressData.firstName) {
+      newErrors.firstName = "First name is required";
+    }
+
+    if (!shippingAddressData.address) {
+      newErrors.address = "Address is required";
+    }
+
+    if (!shippingAddressData.pinCode) {
+      newErrors.pinCode = "Pin code is required";
+    }
+
+    if (!shippingAddressData.city) {
+      newErrors.city = "City is required";
+    }
+
+    if (!shippingAddressData.phoneNumber) {
+      newErrors.phoneNumber = "Phone number is required";
+    } else if (!/^\d{10}$/.test(shippingAddressData.phoneNumber)) {
+      newErrors.phoneNumber = "Phone number must be exactly 10 digits";
+    }
+
+    if (!shippingAddressData.country || !shippingAddressData.country.value) {
+      newErrors.country = "Country is required";
+    }
+
+    setErrors(newErrors);
+
+    return Object.keys(newErrors).length === 0;
+  };
+
   const isShippingAddressComplete =
     shippingAddressData.firstName &&
     shippingAddressData.address &&
     shippingAddressData.pinCode &&
     shippingAddressData.phoneNumber &&
+    /^\d{10}$/.test(shippingAddressData.phoneNumber) &&
     shippingAddressData.city &&
-    Object.keys(shippingAddressData.country || {}).length > 0;
+    shippingAddressData.country?.value;
 
   const [showPayment, setShowPayment] = useState(false);
   const [user, setUser] = useContext(userContext);
@@ -130,7 +152,7 @@ function Cart(props) {
         accumulator + Number(currentValue?.qty || 0),
       0,
     );
-    setCartItem(sumWithInitial1);
+
     setCartTotal(sumWithInitial);
   }, [cartData]);
 
@@ -167,9 +189,18 @@ function Cart(props) {
   };
 
   const createProductRquest = () => {
+    const phone = shippingAddressData.phoneNumber;
+
+    if (!/^\d{10}$/.test(phone)) {
+      props.toaster({
+        type: "error",
+        message: "Phone number must be exactly 10 digits",
+      });
+      return;
+    }
+
     let data = [];
     let cart = localStorage.getItem("addCartDetail");
-    let address = localStorage.getItem("shippingAddressData");
 
     let d = JSON.parse(cart);
 
@@ -209,7 +240,6 @@ function Cart(props) {
     Api("post", "createProductRquest", newData, router).then(
       (res) => {
         props.loader(false);
-        console.log("res================>", res);
 
         if (res.status) {
           setCartData([]);
@@ -231,7 +261,6 @@ function Cart(props) {
       },
       (err) => {
         props.loader(false);
-        console.log(err);
 
         props.toaster({
           type: "error",
@@ -629,7 +658,9 @@ function Cart(props) {
 
               <div className="space-y-4">
                 <input
-                  className="w-full h-[45px] px-4 rounded-xl text-black border border-gray-300 focus:border-black outline-none"
+                  className={`w-full h-[45px] px-4 rounded-xl text-black border ${
+                    errors.phoneNumber ? "border-red-500" : "border-gray-300"
+                  }`}
                   placeholder={t("First Name")}
                   value={shippingAddressData.firstName}
                   onChange={(e) =>
@@ -639,9 +670,16 @@ function Cart(props) {
                     })
                   }
                 />
+                {errors.firstName && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.firstName}
+                  </p>
+                )}
 
                 <input
-                  className="w-full h-[45px] px-4 rounded-xl text-black border border-gray-300 focus:border-black outline-none"
+                  className={`w-full h-[45px] px-4 rounded-xl text-black border ${
+                    errors.phoneNumber ? "border-red-500" : "border-gray-300"
+                  }`}
                   placeholder={t("Address")}
                   value={shippingAddressData.address}
                   onChange={(e) =>
@@ -651,10 +689,15 @@ function Cart(props) {
                     })
                   }
                 />
+                {errors.address && (
+                  <p className="text-red-500 text-xs mt-1">{errors.address}</p>
+                )}
 
                 {/* <div className="grid grid-cols-2 gap-3"> */}
                 <input
-                  className="w-full h-[45px] px-4 rounded-xl text-black border border-gray-300 focus:border-black outline-none"
+                  className={`w-full h-[45px] px-4 rounded-xl text-black border ${
+                    errors.phoneNumber ? "border-red-500" : "border-gray-300"
+                  }`}
                   placeholder={t("Pin Code")}
                   value={shippingAddressData.pinCode}
                   onChange={(e) =>
@@ -664,8 +707,13 @@ function Cart(props) {
                     })
                   }
                 />
+                {errors.pinCode && (
+                  <p className="text-red-500 text-xs mt-1">{errors.pinCode}</p>
+                )}
                 <input
-                  className="w-full h-[45px] px-4 rounded-xl text-black border border-gray-300 focus:border-black outline-none"
+                  className={`w-full h-[45px] px-4 rounded-xl text-black border ${
+                    errors.phoneNumber ? "border-red-500" : "border-gray-300"
+                  }`}
                   placeholder={t("City")}
                   value={shippingAddressData.city}
                   onChange={(e) =>
@@ -675,19 +723,29 @@ function Cart(props) {
                     })
                   }
                 />
-                {/* </div> */}
+                {errors.city && (
+                  <p className="text-red-500 text-xs mt-1">{errors.city}</p>
+                )}
 
                 <input
-                  className="w-full h-[45px] px-4 rounded-xl text-black border border-gray-300 focus:border-black outline-none"
+                  className={`w-full h-[45px] px-4 rounded-xl text-black border ${
+                    errors.phoneNumber ? "border-red-500" : "border-gray-300"
+                  }`}
                   placeholder={t("Phone Number")}
                   value={shippingAddressData.phoneNumber}
                   onChange={(e) =>
                     setShippingAddressData({
                       ...shippingAddressData,
-                      phoneNumber: e.target.value,
+                      phoneNumber: e.target.value.replace(/\D/g, ""), // only numbers
                     })
                   }
+                  maxLength={10}
                 />
+                {errors.phoneNumber && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.phoneNumber}
+                  </p>
+                )}
 
                 <Select
                   placeholder={t("Country")}
@@ -701,6 +759,9 @@ function Cart(props) {
                   }
                   className="h-full"
                 />
+                {errors.country && (
+                  <p className="text-red-500 text-xs mt-1">{errors.country}</p>
+                )}
               </div>
             </div>
 
@@ -743,12 +804,20 @@ function Cart(props) {
                 <div className="mt-6">
                   <PayPalButtons
                     createOrder={(data, actions) => {
+                      if (!validateForm()) {
+                        props.toaster({
+                          type: "error",
+                          message: "Please fill all required fields correctly",
+                        });
+                        return; // ❌ stop PayPal
+                      }
+
                       return actions.order.create({
                         intent: "CAPTURE",
                         purchase_units: [
                           {
                             amount: {
-                              value: CartTotal.toString(), // ✅ always string
+                              value: CartTotal.toString(),
                             },
                           },
                         ],
@@ -781,7 +850,6 @@ function Cart(props) {
                     // ✅ Payment Success
                     onApprove={(data, actions) => {
                       return actions.order.capture().then((details) => {
-                     
                         if (!details || !details.id) {
                           props.toaster({
                             type: "error",
@@ -813,11 +881,6 @@ function Cart(props) {
                       });
                     }}
                   />
-
-                  {/* <button className="text-black" onClick={createProductRquest}>
-                    {" "}
-                    Pay{" "}
-                  </button> */}
                 </div>
               )}
             </div>
